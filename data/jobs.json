@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-11-23T13:24:50.251985Z",
+ "fetchedAt": "2026-11-23T13:26:15.432120Z",
  "jobs": [
   {
    "title": "PRODUCT & SOLUTIONS ENGINEER",
@@ -50,7 +50,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "S1 Teknik Informatika (IT), Pengalaman Minimal 3 Tahun diposisi yang sama, Memiliki pengalaman dalam membuat program khususnya aplikasi mobile dan",
-   "posted": "3 jam yang lalu",
+   "posted": "4 jam yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1560,136 +1560,6 @@
    "summary": "Melakukan pengawasan teknis dan code review terhadap hasil kerja yang dikembangkan oleh berbagai vendor\nMengelola proses serah terima (knowledge...",
    "posted": "8 hari yang lalu",
    "work_type": "hybrid"
-  },
-  {
-   "title": "Web Programmer",
-   "company": null,
-   "location": "Bandung",
-   "category": "Backend",
-   "url": "https://id.jobstreet.com/id/job/95898898",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95898898",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Pengalaman minimal 2 tahun di bidang web programming\nMenguasai HTML5 dan CSS3\nMenguasai Framework PHP Codelgniter\nMenguasai salah satu CSS...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Database Administrator",
-   "company": "Abadi Bintang Cemerlang",
-   "location": "Bandung",
-   "category": "Data",
-   "url": "https://id.jobstreet.com/id/job/95898866",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95898866",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Memiliki pengetahuan tentang database (MySQL / SQL Server)\nDetail & Teliti",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Full Stack Developer - Graphic Designer",
-   "company": null,
-   "location": "Bandung",
-   "category": "Fullstack",
-   "url": "https://id.jobstreet.com/id/job/95898633",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95898633",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Mempunyai rekam jejak pengembangan perangkat lunak, minimal 1 siklus\nPortfolio yang dibawa saat wawancara akan menjadi bahan pertimbangan utama...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Programmer",
-   "company": "PT Perdana Firsta Garment",
-   "location": "Bandung",
-   "category": "Fullstack",
-   "url": "https://id.jobstreet.com/id/job/95898606",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95898606",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Mentransformasikan desain dan spesifikasi software sesuai dengan bahasa pemrograman yang digunakan Mengupdate atau memperbaiki software yang...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "IT Programmer - IOT Engineer",
-   "company": null,
-   "location": "Cimahi",
-   "category": "Backend",
-   "url": "https://id.jobstreet.com/id/job/95898576",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95898576",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Javascript, jQuery, Vue, PHP\nmySQL, MSSQL, Oracle\nIOT Engineer\nEmbeded Linux / RT OS\nMicrochip Firmware\nSyarat Pekerjaan\nPendidikan min...",
-   "posted": "8 hari yang lalu",
-   "work_type": "remote"
-  },
-  {
-   "title": "Full Stack Developer",
-   "company": null,
-   "location": "Bandung",
-   "category": "Backend",
-   "url": "https://id.jobstreet.com/id/job/95898554",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95898554",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Kemampuan teknis yang kuat, diantaranya PHP, Java, Swift, SQL, shell, MySQL, Git, HTML, Javascript, CSS, dll. Nilai tambah untuk pengalaman...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Programmer",
-   "company": null,
-   "location": "Bandung",
-   "category": "Mobile",
-   "url": "https://id.jobstreet.com/id/job/95898439",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95898439",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Deskripsi Pekerjaan Application Development untuk Mobile/Web Apps Banking Syarat Pekerjaan Tingkat Akhir atau Sudah Lulus S1/D4 segala Jurusan",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Sales ISP - Front End Developer - Technical Support ISP",
-   "company": "Qwords Company International",
-   "location": "Bandung",
-   "category": "Frontend",
-   "url": "https://id.jobstreet.com/id/job/95898400",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95898400",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Pendidikan minimal SMK/D3 di Teknik Informatika/ Manajemen Informatika\nPengalaman bekerja sebagai NOC atau teknisi jaringan\nMampu melakukan...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "FrontEnd Developer - BackEnd Developer",
-   "company": "Ganeshcom Digital Solutions Partner",
-   "location": "Bandung",
-   "category": "Frontend",
-   "url": "https://id.jobstreet.com/id/job/95898283",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95898283",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Memiliki pengetahuan HTML dan CSS tingkat lanjut\nMampu menggunakan dan memanfaatkan CSS framework dengan baik\nMampu mengimplementasikan ide desain...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Web Designer",
-   "company": "DABEST CONSULTANT",
-   "location": "Bandung",
-   "category": "Frontend",
-   "url": "https://id.jobstreet.com/id/job/95898119",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95898119",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Memiliki pengalaman bekerja di bidang desain web (WordPress)\nMemahami prinsip-prinsip desain UI/UX yang baik dan creative thinking\nMenguasai HTML,...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
   }
  ]
 }
