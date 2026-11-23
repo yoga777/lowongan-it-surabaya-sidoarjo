@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Update data/jobs.json untuk Lowongan IT Surabaya & Sidoarjo.
+Update data/jobs.json untuk Lowongan IT seluruh Indonesia.
 
-Sumber: RSS pencarian Bing untuk beberapa kueri lowongan IT di area
-Surabaya / Sidoarjo / Gresik / Mojokerto. Hasil difilter ke domain/portal
+Sumber: RSS pencarian Bing untuk beberapa kueri lowongan IT di kota-kota
+besar Indonesia (Jakarta, Bandung, Surabaya, Semarang, Medan, Denpasar,
+Makassar, dll). Hasil difilter ke domain/portal
 lowongan yang dikenal, didedup berdasarkan URL, dan dikategorikan sederhana.
 
 Kalau hasil baru < 5 (mis. jaringan diblokir), file lama TIDAK ditimpa —
@@ -26,8 +27,28 @@ QUERIES = [
     "lowongan QA data engineer Surabaya",
     "lowongan full stack developer Surabaya",
     "lowongan IT Gresik Mojokerto programmer",
+    "lowongan kerja IT programmer developer Jakarta Jobstreet Glints",
+    "lowongan kerja IT developer Tangerang Bekasi Bogor Depok",
+    "lowongan kerja IT programmer Bandung Cimahi Jobstreet Glints",
+    "lowongan kerja IT developer Semarang Yogyakarta Solo",
+    "lowongan kerja IT programmer Malang Kediri",
+    "lowongan kerja IT developer Medan Palembang Batam Pekanbaru",
+    "lowongan kerja IT programmer Denpasar Bali Jobstreet",
+    "lowongan kerja IT developer Makassar Balikpapan Samarinda Pontianak Manado Banjarmasin",
 ]
-LOCATIONS = ["Sidoarjo", "Gresik", "Mojokerto", "Surabaya"]
+# Urutkan dari nama terpanjang/spesifik dulu agar "Tangerang Selatan"
+# tidak tertangkap sebagai "Tangerang" dan "Kota" generik tidak menimpa.
+LOCATIONS = [
+    "Tangerang Selatan", "Jakarta Selatan", "Jakarta Barat", "Jakarta Timur",
+    "Jakarta Utara", "Jakarta Pusat", "Sidoarjo", "Gresik", "Mojokerto",
+    "Surabaya", "Jakarta", "Tangerang", "Bekasi", "Bogor", "Depok",
+    "Bandung", "Cimahi", "Semarang", "Yogyakarta", "Solo", "Malang",
+    "Kediri", "Medan", "Palembang", "Batam", "Pekanbaru", "Denpasar",
+    "Makassar", "Balikpapan", "Samarinda", "Pontianak", "Banjarmasin",
+    "Manado",
+]
+# Host sampah yang pernah muncul dari hasil RSS dan tidak boleh masuk data.
+DENY_HOSTS = {"example.com", "example.org", "example.net"}
 CATEGORY_RULES = [
     ("QA", ["qa", "quality assurance", "tester", "sdet"]),
     ("Data", ["data engineer", "data analyst", "database", "data quality"]),
@@ -55,8 +76,14 @@ def categorize(title: str, summary: str) -> str:
 def location_of(text: str) -> str:
     for loc in LOCATIONS:
         if loc.lower() in text.lower():
+            # Normalisasi: "Jakarta Selatan" dsb. digabung ke "Jakarta",
+            # "Tangerang Selatan" digabung ke "Tangerang".
+            if loc.startswith("Jakarta"):
+                return "Jakarta"
+            if loc.startswith("Tangerang"):
+                return "Tangerang"
             return loc
-    return "Surabaya"
+    return "Jakarta"
 
 def main() -> int:
     seen, jobs = set(), []
@@ -72,11 +99,12 @@ def main() -> int:
             desc = re.sub("<[^>]+>", "", item.findtext("description") or "").strip()
             if not title or not link or link in seen:
                 continue
-            if "surabaya" not in (title + desc).lower() and "sidoarjo" not in (title + desc).lower() \
-               and "gresik" not in (title + desc).lower() and "mojokerto" not in (title + desc).lower():
+            if not any(loc.lower() in (title + desc).lower() for loc in LOCATIONS):
+                continue
+            host = re.sub(r"^www\.", "", urllib.request.urlparse(link).netloc)
+            if host in DENY_HOSTS:
                 continue
             seen.add(link)
-            host = re.sub(r"^www\.", "", urllib.request.urlparse(link).netloc)
             source_name = host.split(".")[0].capitalize()
             jobs.append({
                 "title": title[:140],

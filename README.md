@@ -1,6 +1,6 @@
-# Lowongan IT Surabaya & Sidoarjo
+# Lowongan IT Seluruh Indonesia
 
-Papan lowongan pekerjaan bidang **IT** untuk area **Surabaya, Sidoarjo, Gresik, Mojokerto, dan sekitarnya**, diambil dari berbagai sumber di internet (JobStreet, Indeed, Glints, Dealls, Jooble, SmartRecruiters, situs karier perusahaan, dll).
+Papan lowongan pekerjaan bidang **IT** untuk **seluruh Indonesia** — Jakarta, Tangerang, Bandung, Semarang, Yogyakarta, Surabaya, Sidoarjo, Medan, Denpasar, Balikpapan, dan kota lain — diambil dari berbagai sumber di internet (JobStreet, Indeed, Glints, Dealls, Jooble, SmartRecruiters, situs karier perusahaan, dll). Filter lokasi otomatis mengikuti lokasi pengunjung (kota terdekat), dan pilihan manual diingat untuk kunjungan berikutnya.
 
 🌐 **Web:** https://yoga777.github.io/lowongan-it-surabaya-sidoarjo/
 
@@ -16,7 +16,7 @@ Papan lowongan pekerjaan bidang **IT** untuk area **Surabaya, Sidoarjo, Gresik, 
 ## Fitur
 
 - Pencarian kata kunci (posisi / perusahaan / skill)
-- Filter lokasi (chip), kategori, dan sumber
+- Filter lokasi (chip), kategori, dan sumber — lokasi default terdeteksi dari kota pengunjung (perkiraan IP, atau GPS lewat tombol "Gunakan lokasi saya"), pilihan manual tersimpan
 - Kartu lowongan modern dengan tombol **Lamar di Sumber Asli**
 - Mode gelap/terang mengikuti sistem
 
