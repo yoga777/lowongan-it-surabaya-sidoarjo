@@ -106,8 +106,8 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .pager .dots{color:var(--muted);padding:0 2px}
 .wt-note{margin:8px 0 0;font-size:12.5px;line-height:1.5;color:var(--muted)}
 .tag-wt{color:var(--brand);background:var(--brand-soft);border-color:transparent}
-.apply span{transition:transform .16s ease-out}
-.apply:hover span{transform:translateX(2px)}
+.apply .arr{transition:transform .16s ease-out}
+.apply:hover .arr{transform:translateX(2px)}
 .loc-tag{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 14px;font-size:14px}
 .loc-tag[hidden]{display:none}
 .loc-tag .pill{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:var(--on-brand);font-weight:700;border-radius:999px;padding:7px 8px 7px 14px}
@@ -139,7 +139,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .job-row{display:flex;gap:16px;min-width:0}
 .job-foot{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:14px}
 .job-foot .apply{margin:0 0 0 auto}
-.job-foot .save-btn{min-height:44px;padding:9px 16px}
+.job-foot .save-btn{min-height:40px;padding:8px 14px}
 .job:hover{transform:translateY(-2px);border-color:color-mix(in oklch, var(--brand) 45%, var(--line));box-shadow:0 2px 4px oklch(0.24 0.03 255 / .05), 0 18px 36px -18px oklch(0.24 0.03 255 / .35)}
 :root[data-theme="dark"] .job:hover{box-shadow:0 2px 4px oklch(0 0 0 / .35), 0 18px 36px -18px oklch(0 0 0 / .7)}
 @media (prefers-reduced-motion:no-preference){
@@ -166,10 +166,11 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .tag-cat{color:var(--tc);background:var(--tb);border-color:var(--tc)}
 .tag-src{color:var(--muted);background:var(--panel);border-color:var(--line)}
 :root[data-theme="dark"] .tag-cat{background:color-mix(in oklch, var(--tc) 26%, transparent);color:color-mix(in oklch, var(--tc) 40%, oklch(0.96 0 0));border-color:color-mix(in oklch, var(--tc) 55%, transparent)}
-.save-btn{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;min-height:38px}
+.save-btn{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:13.5px;line-height:1;font-weight:700;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;min-height:36px}
+.save-btn svg,.apply svg,.meta svg{display:block;flex:none}
 .save-btn:hover{border-color:var(--brand);color:var(--brand)}
 .save-btn[aria-pressed="true"]{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
-.apply{margin-top:auto;display:inline-flex;align-items:center;gap:7px;background:var(--action);color:var(--on-action);font-weight:800;font-size:14.5px;text-decoration:none;border-radius:12px;padding:11px 18px;min-height:44px;box-shadow:0 8px 18px -10px oklch(0.24 0.03 255 / .55);transition:background-color .16s ease-out,transform .16s ease-out}
+.apply{margin-top:auto;display:inline-flex;align-items:center;gap:6px;background:var(--action);color:var(--on-action);font-weight:800;font-size:14px;line-height:1;text-decoration:none;border-radius:10px;padding:9px 16px;min-height:40px;box-shadow:0 8px 18px -10px oklch(0.24 0.03 255 / .55);transition:background-color .16s ease-out,transform .16s ease-out}
 .apply:hover{background:var(--action-deep)}
 .apply:active{transform:scale(.98)}
 .empty{padding:52px 24px;text-align:center;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
@@ -219,8 +220,8 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
  .job-row{gap:12px}
  .avatar{width:46px;height:46px;font-size:17px;border-radius:12px}
  .job-foot{display:grid;grid-template-columns:1fr 1.25fr;gap:10px;padding-top:12px}
- .job-foot .save-btn{justify-content:center;min-height:48px;padding:10px 8px}
- .job-foot .apply{margin:0;justify-content:center;min-height:48px;padding:11px 8px;text-align:center}
+ .job-foot .save-btn{justify-content:center;min-height:44px;padding:9px 8px}
+ .job-foot .apply{margin:0;justify-content:center;min-height:44px;padding:9px 8px;text-align:center}
  .meta{gap:6px}
  .toolbar{gap:8px}
  .toolbar .sort{margin-left:0;width:100%}
@@ -353,9 +354,9 @@ const PER_PAGE=10;let page=1,lastSig='';
 let SAVED=new Set();try{SAVED=new Set(JSON.parse(localStorage.getItem('lokerit-saved')||'[]'))}catch(e){}
 const AV_COLORS=['oklch(0.52 0.13 162)','oklch(0.55 0.14 255)','oklch(0.58 0.15 25)','oklch(0.55 0.13 305)','oklch(0.58 0.12 85)','oklch(0.55 0.14 200)','oklch(0.52 0.15 350)','oklch(0.56 0.12 130)'];
 const CAT_COLORS={'Programming':['oklch(0.47 0.15 256)','oklch(0.935 0.032 255)'],'Fullstack':['oklch(0.47 0.15 256)','oklch(0.935 0.032 255)'],'Backend':['oklch(0.48 0.11 255)','oklch(0.93 0.035 255)'],'Frontend':['oklch(0.52 0.13 350)','oklch(0.95 0.03 350)'],'Mobile':['oklch(0.52 0.13 350)','oklch(0.95 0.03 350)'],'IT Support & Infrastruktur':['oklch(0.48 0.11 255)','oklch(0.93 0.035 255)'],'IT Support':['oklch(0.48 0.11 255)','oklch(0.93 0.035 255)'],'Data & QA':['oklch(0.50 0.12 305)','oklch(0.94 0.03 305)'],'Data':['oklch(0.50 0.12 305)','oklch(0.94 0.03 305)'],'QA':['oklch(0.50 0.12 305)','oklch(0.94 0.03 305)'],'Design & Product':['oklch(0.52 0.13 350)','oklch(0.95 0.03 350)'],'ERP & Sistem Bisnis':['oklch(0.50 0.11 85)','oklch(0.94 0.04 85)'],'DevOps & Network':['oklch(0.50 0.11 85)','oklch(0.94 0.04 85)'],'Teknisi & Engineering':['oklch(0.50 0.12 35)','oklch(0.94 0.04 35)'],'IT Lainnya':['oklch(0.50 0.03 200)','oklch(0.93 0.015 200)'],'Lainnya':['oklch(0.50 0.03 200)','oklch(0.93 0.015 200)']};
-const icoPin='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>';
-const icoClock='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
-const icoBmk=f=>'<svg width="15" height="15" viewBox="0 0 24 24" fill="'+(f?'currentColor':'none')+'" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
+const icoPin='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+const icoClock='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+const icoBmk=f=>'<svg width="14" height="14" viewBox="0 0 24 24" fill="'+(f?'currentColor':'none')+'" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function initials(name){const w=String(name||'?').replace(/^(PT|CV|UD)\.?\s+/i,'').trim().split(/\s+/);return ((w[0]||'?')[0]+((w[1]||'')[0]||'')).toUpperCase()}
 function avColor(name){let h=0;for(const c of String(name))h=(h*31+c.charCodeAt(0))>>>0;return AV_COLORS[h%AV_COLORS.length]}
@@ -426,7 +427,7 @@ function render(){
   const key=jobKey(j),saved=SAVED.has(key),cc=CAT_COLORS[j.category]||CAT_COLORS['Lainnya'];
   const company=j.company||(j.source_name?'Via '+j.source_name:'Perusahaan tidak dicantumkan');
   const titleHtml=j.url?'<a href="'+esc(j.url)+'" target="_blank" rel="noopener">'+esc(j.title)+'</a>':esc(j.title);
-  const applyHtml=j.url?'<a class="apply" href="'+esc(j.url)+'" target="_blank" rel="noopener">Lamar <span aria-hidden="true">→</span></a>':'<span class="apply disabled" aria-disabled="true">Link tidak tersedia</span>';
+  const applyHtml=j.url?'<a class="apply" href="'+esc(j.url)+'" target="_blank" rel="noopener">Lamar <svg class="arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>':'<span class="apply disabled" aria-disabled="true">Link tidak tersedia</span>';
   return '<article class="job">'
   +'<div class="job-row"><div class="avatar" style="background:'+avColor(j.company||j.title)+'" aria-hidden="true">'+esc(initials(j.company||j.title))+'</div>'
   +'<div class="job-main"><div class="job-top"><div><h3>'+titleHtml+'</h3>'
