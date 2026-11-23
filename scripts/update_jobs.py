@@ -77,13 +77,18 @@ def main() -> int:
                 continue
             seen.add(link)
             host = re.sub(r"^www\.", "", urllib.request.urlparse(link).netloc)
+            source_name = host.split(".")[0].capitalize()
             jobs.append({
                 "title": title[:140],
                 "company": None,
                 "location": location_of(title + " " + desc),
                 "category": categorize(title, desc),
-                "sourceName": host.split(".")[0].capitalize(),
+                # Skema kanonis yang dibaca index.html (url + source_name),
+                # plus alias lama agar kompatibel dengan data/konsumen lama.
+                "url": link,
                 "sourceUrl": link,
+                "source_name": source_name,
+                "sourceName": source_name,
                 "summary": desc[:280],
             })
     if len(jobs) < 5:
