@@ -104,6 +104,8 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .pager button[aria-current="page"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
 .pager button:disabled{opacity:.45;cursor:default}
 .pager .dots{color:var(--muted);padding:0 2px}
+.wt-note{margin:8px 0 0;font-size:12.5px;line-height:1.5;color:var(--muted)}
+.tag-wt{border:1px solid var(--line);color:var(--muted);background:var(--panel)}
 .loc-tag{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 14px;font-size:14px}
 .loc-tag[hidden]{display:none}
 .loc-tag .pill{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:var(--on-brand);font-weight:700;border-radius:999px;padding:7px 8px 7px 14px}
@@ -284,6 +286,16 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
     <h2>Sumber</h2>
     <select id="srcSel" aria-label="Filter sumber"></select>
    </div>
+   <div>
+    <h2>Tipe Pekerjaan</h2>
+    <select id="wtSel" aria-label="Filter tipe pekerjaan">
+     <option value="">Semua tipe</option>
+     <option value="remote">Remote</option>
+     <option value="hybrid">Hybrid</option>
+     <option value="onsite">Onsite</option>
+    </select>
+    <p class="wt-note">Tipe dibaca dari teks lowongan aslinya; lowongan yang tidak menyebutkan tipe hanya muncul di "Semua tipe".</p>
+   </div>
   </div>
   <button class="reset" id="resetBtn" type="button">Atur ulang semua filter</button>
  </aside>
@@ -322,7 +334,8 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
 
 <script>
 const $=id=>document.getElementById(id);
-const q=$('q'),catSel=$('catSel'),srcSel=$('srcSel'),sortSel=$('sortSel'),panel=$('jobPanel'),locList=$('locList'),savedBox=$('savedFilter');
+const q=$('q'),catSel=$('catSel'),srcSel=$('srcSel'),wtSel=$('wtSel'),sortSel=$('sortSel'),panel=$('jobPanel'),locList=$('locList'),savedBox=$('savedFilter');
+const WT_LABEL={remote:'Remote',hybrid:'Hybrid',onsite:'Onsite'};
 let JOBS=[],activeLoc='Semua',activeJobLoc='Semua',onlySaved=false;
 const PER_PAGE=10;let page=1,lastSig='';
 let SAVED=new Set();try{SAVED=new Set(JSON.parse(localStorage.getItem('lokerit-saved')||'[]'))}catch(e){}
@@ -338,7 +351,8 @@ function jobKey(j){return j.url||(j.title+'|'+(j.company||''))}
 function normalizeJob(j){
  const url=String(j.url||j.sourceUrl||j.link||'').trim();
  const source=String(j.source_name||j.sourceName||'').trim();
- return {title:String(j.title||'Lowongan IT').trim(),company:String(j.company||'').trim(),location:String(j.location||'Surabaya').trim(),category:String(j.category||'Lainnya').trim(),url:/^https?:\/\//i.test(url)?url:'',source_name:source,posted:String(j.posted||'').trim(),summary:String(j.summary||'').trim()};
+ const wt=['remote','hybrid','onsite'].includes(j.work_type)?j.work_type:'';
+ return {title:String(j.title||'Lowongan IT').trim(),company:String(j.company||'').trim(),location:String(j.location||'Surabaya').trim(),category:String(j.category||'Lainnya').trim(),url:/^https?:\/\//i.test(url)?url:'',source_name:source,posted:String(j.posted||'').trim(),summary:String(j.summary||'').trim(),work_type:wt};
 }
 function fmtDate(iso){if(!iso)return'';const d=new Date(iso);return d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})+', '+d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+' WIB'}
 
@@ -373,6 +387,7 @@ function render(){
   if(onlySaved&&!SAVED.has(jobKey(j)))return false;
   if(catSel.value&&j.category!==catSel.value)return false;
   if(srcSel.value&&j.source_name!==srcSel.value)return false;
+  if(wtSel.value&&j.work_type!==wtSel.value)return false;
   if(query&&!(j.title+' '+j.company+' '+j.location+' '+j.category+' '+j.source_name+' '+j.summary).toLowerCase().includes(query))return false;
   return true;
  });
@@ -381,7 +396,7 @@ function render(){
  if(sortSel.value==='location')rows.sort((a,b)=>a.location.localeCompare(b.location,'id'));
  $('resultCount').textContent=rows.length+' dari '+JOBS.length+' lowongan';
  renderLocTag();
- const sig=[activeLoc,activeJobLoc,onlySaved,catSel.value,srcSel.value,sortSel.value,query].join('|');
+ const sig=[activeLoc,activeJobLoc,onlySaved,catSel.value,srcSel.value,wtSel.value,sortSel.value,query].join('|');
  if(sig!==lastSig){lastSig=sig;page=1}
  const totalPages=Math.max(1,Math.ceil(rows.length/PER_PAGE));
  if(page>totalPages)page=totalPages;
@@ -406,7 +421,7 @@ function render(){
   +'<div class="company">'+esc(company)+'</div></div></div>'
   +'<div class="meta"><span>'+icoPin+esc(j.location)+'</span>'+(j.posted?'<span>'+icoClock+'Diposting '+esc(j.posted)+'</span>':'')+(j.source_name?'<span>Sumber: '+esc(j.source_name)+'</span>':'')+'</div>'
   +(j.summary?'<p class="summary">'+esc(j.summary)+'</p>':'')
-  +'<div class="tags"><span class="tag tag-cat" style="--tc:'+cc[0]+';--tb:'+cc[1]+'">'+esc(j.category)+'</span></div></div>'
+  +'<div class="tags"><span class="tag tag-cat" style="--tc:'+cc[0]+';--tb:'+cc[1]+'">'+esc(j.category)+'</span>'+(j.work_type?'<span class="tag tag-wt">'+WT_LABEL[j.work_type]+'</span>':'')+'</div></div>'
   +'<div class="job-side"><button type="button" class="save-btn" data-key="'+esc(key)+'" aria-pressed="'+saved+'" aria-label="'+(saved?'Hapus dari tersimpan: ':'Simpan lowongan: ')+esc(j.title)+'">'+icoBmk(saved)+(saved?'Tersimpan':'Simpan')+'</button>'
   +applyHtml+'</div></article>'
  }).join('');
@@ -441,7 +456,7 @@ function renderPager(total,totalPages){
   document.getElementById('daftar').scrollIntoView({behavior:'smooth'});
  });
 }
-function resetAll(){q.value='';catSel.value='';srcSel.value='';sortSel.value='default';activeLoc='Semua';activeJobLoc='Semua';onlySaved=false;locQuery='';const ls=$('locSearch');if(ls)ls.value='';hideSuggest();try{localStorage.removeItem('lokerit-loc')}catch(e){}hideLocNote();buildLoc();buildSaved();render()}
+function resetAll(){q.value='';catSel.value='';srcSel.value='';wtSel.value='';sortSel.value='default';activeLoc='Semua';activeJobLoc='Semua';onlySaved=false;locQuery='';const ls=$('locSearch');if(ls)ls.value='';hideSuggest();try{localStorage.removeItem('lokerit-loc')}catch(e){}hideLocNote();buildLoc();buildSaved();render()}
 
 /* ===== Default filter sesuai lokasi user ===== */
 const CITY_COORDS={'Jakarta':[-6.2088,106.8456],'Tangerang':[-6.1702,106.6403],'Bekasi':[-6.2383,106.9756],'Bogor':[-6.5971,106.806],'Depok':[-6.4025,106.7942],'Bandung':[-6.9175,107.6191],'Cimahi':[-6.8841,107.5239],'Semarang':[-6.9667,110.4167],'Yogyakarta':[-7.7956,110.3695],'Solo':[-7.5755,110.8243],'Surabaya':[-7.2575,112.7521],'Sidoarjo':[-7.4478,112.7183],'Gresik':[-7.1564,112.6555],'Mojokerto':[-7.4706,112.4401],'Malang':[-7.9666,112.6326],'Kediri':[-7.8166,112.0118],'Denpasar':[-8.6705,115.2126],'Medan':[3.5952,98.6722],'Palembang':[-2.9761,104.7754],'Batam':[1.0456,104.0305],'Pekanbaru':[0.5071,101.4478],'Balikpapan':[-1.2379,116.8529],'Samarinda':[-0.4948,117.1436],'Pontianak':[-0.0263,109.3425],'Makassar':[-5.1477,119.4327],'Banjarmasin':[-3.3186,114.5944],'Manado':[1.4748,124.8421]};
@@ -558,7 +573,7 @@ fetch('data/jobs.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HT
 }).catch(()=>{panel.innerHTML='<div class="empty"><strong>Data belum bisa dimuat</strong>Coba muat ulang halaman ini beberapa saat lagi.</div>'});
 
 $('searchForm').addEventListener('submit',e=>{e.preventDefault();render();document.getElementById('daftar').scrollIntoView({behavior:'smooth'})});
-q.addEventListener('input',render);catSel.onchange=render;srcSel.onchange=render;sortSel.onchange=render;
+q.addEventListener('input',render);catSel.onchange=render;srcSel.onchange=render;wtSel.onchange=render;sortSel.onchange=render;
 $('resetBtn').onclick=resetAll;
 locSearchEl.addEventListener('input',()=>{locQuery=locSearchEl.value.trim().toLowerCase();buildLoc();renderSuggest()});
 locSearchEl.addEventListener('focus',()=>renderSuggest());

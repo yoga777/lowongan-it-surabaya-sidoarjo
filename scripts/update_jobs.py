@@ -73,6 +73,17 @@ def categorize(title: str, summary: str) -> str:
             return cat
     return "Lainnya"
 
+def work_type_of(title: str, summary: str):
+    """Tipe pekerjaan dari teks sumber; None bila tidak disebutkan."""
+    text = (title + " " + summary).lower()
+    if re.search(r"\bremote\b|work from home|\bwfh\b|dari rumah", text):
+        return "remote"
+    if "hybrid" in text:
+        return "hybrid"
+    if re.search(r"onsite|on-site|di kantor|work from office|\bwfo\b", text):
+        return "onsite"
+    return None
+
 def location_of(text: str) -> str:
     for loc in LOCATIONS:
         if loc.lower() in text.lower():
@@ -106,7 +117,7 @@ def main() -> int:
                 continue
             seen.add(link)
             source_name = host.split(".")[0].capitalize()
-            jobs.append({
+            job = {
                 "title": title[:140],
                 "company": None,
                 "location": location_of(title + " " + desc),
@@ -118,7 +129,11 @@ def main() -> int:
                 "source_name": source_name,
                 "sourceName": source_name,
                 "summary": desc[:280],
-            })
+            }
+            wt = work_type_of(title, desc)
+            if wt:
+                job["work_type"] = wt
+            jobs.append(job)
     if len(jobs) < 5:
         print(f"Hasil baru cuma {len(jobs)} (<5) — file lama dipertahankan.")
         return 0
