@@ -2,14 +2,16 @@
 """
 Update data/jobs.json untuk Lowongan IT seluruh Indonesia.
 
-Sumber: hasil pencarian web untuk beberapa kueri lowongan IT di kota-kota
-besar Indonesia (Jakarta, Bandung, Surabaya, Semarang, Medan, Denpasar,
-Makassar, dll) — utama lewat DuckDuckGo HTML, cadangan Bing HTML.
-(RSS pencarian Bing berhenti mengembalikan hasil pada Nov 2026, jadi
-lapisan ambil data diganti ke halaman hasil pencarian HTML.)
-Hasil disaring (harus menyebut kota target + kata kunci lowongan/bidang
-IT, host berita/sosial dibuang), didedup berdasarkan URL, dan
-dikategorikan sederhana.
+Sumber UTAMA: API pencarian publik Jobstreet (SEEK) dengan klasifikasi
+Teknologi Informasi (6281) per kota — menghasilkan lowongan INDIVIDUAL
+asli lengkap dengan perusahaan, lokasi, tanggal posting, dan tipe
+kerja (Kantor/Hibrid/Jarak jauh) dari sumbernya.
+Sumber PELENGKAP: hasil pencarian web (DuckDuckGo HTML + Bing HTML)
+untuk portal lain; dari sini yang diprioritaskan adalah URL lowongan
+individual (pola URL detail), halaman daftar portal dibatasi ketat.
+(RSS pencarian Bing berhenti mengembalikan hasil pada Nov 2026.)
+Hasil disaring (host berita/sosial dibuang, lowongan "(Closed)" dibuang),
+didedup berdasarkan URL, dan dikategorikan sederhana.
 
 Kalau hasil baru < 5 (mis. jaringan diblokir), file lama TIDAK ditimpa —
 jadi situs tidak pernah kosong gara-gara satu run gagal.
@@ -118,6 +120,85 @@ def fetch_bing(query: str):
                     "desc": _clean(pm.group(1)) if pm else ""})
     return out
 
+# ===== Sumber utama: API Jobstreet (SEEK), klasifikasi IT 6281 =====
+SEEK_CITIES = [
+    "Surabaya", "Sidoarjo", "Gresik", "Mojokerto", "Jakarta", "Tangerang",
+    "Bekasi", "Bogor", "Depok", "Bandung", "Cimahi", "Semarang",
+    "Yogyakarta", "Solo", "Malang", "Kediri", "Medan", "Palembang",
+    "Batam", "Pekanbaru", "Denpasar", "Makassar", "Balikpapan",
+    "Samarinda", "Pontianak", "Banjarmasin", "Manado",
+]
+
+def _arrangement_wt(labels):
+    low = " ".join(labels).lower()
+    if "jarak jauh" in low or "remote" in low:
+        return "remote"
+    if "hibrid" in low or "hybrid" in low:
+        return "hybrid"
+    if "kantor" in low:
+        return "onsite"
+    return None
+
+def fetch_jobstreet(city: str):
+    """Lowongan individual Jobstreet untuk satu kota (klasifikasi IT)."""
+    qs = urllib.parse.urlencode({
+        "siteKey": "ID-Main", "where": city, "page": 1, "pageSize": 30,
+        "locale": "id-ID", "classification": "6281",
+    })
+    url = "https://id.jobstreet.com/api/jobsearch/v5/search?" + qs
+    req = urllib.request.Request(url, headers=UA)
+    with urllib.request.urlopen(req, timeout=30) as r:
+        data = json.load(r)
+    out = []
+    for j in data.get("data", []):
+        cls_ids = [c.get("classification", {}).get("id") for c in j.get("classifications", [])]
+        if "6281" not in cls_ids:
+            continue
+        title = (j.get("title") or "").strip()
+        if not title or "(closed)" in title.lower():
+            continue
+        locs = j.get("locations") or []
+        label = locs[0].get("label", "") if locs else ""
+        loc = location_of(label) if any(l.lower() in label.lower() for l in LOCATIONS) else location_of(city)
+        subs = " ".join(c.get("subclassification", {}).get("description", "") for c in j.get("classifications", []))
+        teaser = (j.get("teaser") or "").strip()
+        labels = [x.get("label", {}).get("text", "") for x in j.get("workArrangements", {}).get("data", [])]
+        job = {
+            "title": title[:140],
+            "company": (j.get("companyName") or None),
+            "location": loc,
+            "category": categorize(title, teaser + " " + subs),
+            "url": f"https://id.jobstreet.com/id/job/{j.get('id')}",
+            "sourceUrl": f"https://id.jobstreet.com/id/job/{j.get('id')}",
+            "source_name": "Jobstreet",
+            "sourceName": "Jobstreet",
+            "summary": teaser[:280],
+            "posted": (j.get("listingDateDisplay") or "").strip(),
+        }
+        wt = _arrangement_wt(labels) or work_type_of(title, teaser)
+        if wt:
+            job["work_type"] = wt
+        job["_date"] = j.get("listingDate") or ""
+        out.append(job)
+    return out
+
+# Pola URL lowongan INDIVIDUAL (detail) untuk sumber pelengkap pencarian.
+POSTING_RES = [
+    r"glints\.com/id/opportunities/jobs/",
+    r"jobstreet\.com/id/job/\d+",
+    r"indeed\.com/viewjob",
+    r"jobs\.smartrecruiters\.com/",
+    r"kalibrr\.com/c/[^/]+/jobs/",
+    r"dealls\.com/peluang-kerja/",
+    r"boards\.greenhouse\.io/[^/]+/jobs/",
+    r"jobs\.lever\.co/",
+    r"apply\.workable\.com/",
+    r"glassdoor\.[^/]+/job-listing/",
+]
+
+def is_posting(url: str) -> bool:
+    return any(re.search(p, url) for p in POSTING_RES)
+
 def fetch_search(query: str):
     """Gabung hasil DDG + Bing HTML (keduanya kadang bolong secara acak),
     dedup per URL, buang tautan pembungkus redirect mesin pencari."""
@@ -192,6 +273,23 @@ def source_name_of(host: str) -> str:
 
 def main() -> int:
     seen, jobs = set(), []
+
+    # 1) Sumber utama: lowongan individual Jobstreet per kota.
+    for ci, city in enumerate(SEEK_CITIES):
+        if ci:
+            time.sleep(0.4)
+        try:
+            for job in fetch_jobstreet(city):
+                if job["url"] in seen:
+                    continue
+                seen.add(job["url"])
+                jobs.append(job)
+        except Exception as e:
+            print(f"WARN: Jobstreet gagal: {city}: {e}", file=sys.stderr)
+
+    # 2) Pelengkap pencarian web: individual diprioritaskan, halaman
+    #    daftar dibatasi maks 1 per (sumber, kota).
+    postings, listings, listing_keys = [], [], set()
     for qi, q in enumerate(QUERIES):
         if qi:
             time.sleep(1.2)  # jeda sopan antar-kueri agar tidak kena batas laju
@@ -229,17 +327,44 @@ def main() -> int:
                 "source_name": source_name,
                 "sourceName": source_name,
                 "summary": desc[:280],
+                "_date": "",
             }
             wt = work_type_of(title, desc)
             if wt:
                 job["work_type"] = wt
-            jobs.append(job)
-    if len(jobs) < 5:
-        print(f"Hasil baru cuma {len(jobs)} (<5) — file lama dipertahankan.")
+            if is_posting(link):
+                postings.append(job)
+            else:
+                key = (source_name, job["location"])
+                if key in listing_keys:
+                    continue
+                listing_keys.add(key)
+                listings.append(job)
+    # Urutkan Jobstreet terbaru dulu; beri kuota agar pelengkap dari
+    # portal lain tetap dapat tempat. Batas per kota menjaga sebaran.
+    jobs.sort(key=lambda j: j.get("_date", ""), reverse=True)
+    per_loc, final = {}, []
+
+    def take(pool, loc_cap, total_cap):
+        for job in pool:
+            if len(final) >= total_cap:
+                break
+            n = per_loc.get(job["location"], 0)
+            if n >= loc_cap:
+                continue
+            per_loc[job["location"]] = n + 1
+            job.pop("_date", None)
+            final.append(job)
+
+    take(jobs, 20, 120)       # utama: individual Jobstreet
+    take(postings, 25, 140)   # pelengkap: individual portal lain
+    take(listings, 25, 150)   # terakhir: halaman daftar (sudah dibatasi)
+    if len(final) < 5:
+        print(f"Hasil baru cuma {len(final)} (<5) — file lama dipertahankan.")
         return 0
-    data = {"fetchedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"), "jobs": jobs}
+    data = {"fetchedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"), "jobs": final}
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"OK: {len(jobs)} lowongan ditulis ke {OUT}")
+    print(f"OK: {len(final)} lowongan ditulis ke {OUT}")
     return 0
 
 if __name__ == "__main__":
