@@ -132,11 +132,16 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .toolbar .sort select{width:auto;padding:8px 10px;min-height:40px}
 
 /* ===== Baris lowongan kaya ===== */
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-.job{display:flex;gap:16px;padding:20px clamp(16px,2.5vw,24px);border-bottom:1px solid var(--line);transition:background-color .16s ease-out}
-.job:last-child{border-bottom:0}
-.job:hover{background:var(--panel)}
-.avatar{width:52px;height:52px;border-radius:13px;display:grid;place-items:center;font-weight:850;font-size:19px;color:oklch(0.99 0.01 160);flex:none;letter-spacing:-0.02em}
+.panel{display:flex;flex-direction:column;gap:14px}
+.job{display:flex;gap:16px;padding:20px clamp(16px,2.5vw,24px);background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);transition:transform .18s ease-out,box-shadow .18s ease-out,border-color .18s ease-out}
+.job:hover{transform:translateY(-2px);border-color:color-mix(in oklch, var(--brand) 45%, var(--line));box-shadow:0 2px 4px oklch(0.24 0.03 255 / .05), 0 18px 36px -18px oklch(0.24 0.03 255 / .35)}
+:root[data-theme="dark"] .job:hover{box-shadow:0 2px 4px oklch(0 0 0 / .35), 0 18px 36px -18px oklch(0 0 0 / .7)}
+@media (prefers-reduced-motion:no-preference){
+ .job{animation:rise .38s ease-out backwards}
+ .job:nth-child(2){animation-delay:.05s}.job:nth-child(3){animation-delay:.1s}.job:nth-child(4){animation-delay:.15s}.job:nth-child(5){animation-delay:.2s}.job:nth-child(6){animation-delay:.25s}.job:nth-child(7){animation-delay:.3s}.job:nth-child(8){animation-delay:.35s}.job:nth-child(9){animation-delay:.4s}.job:nth-child(10){animation-delay:.45s}
+}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.avatar{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-weight:850;font-size:19px;color:oklch(0.99 0.01 160);flex:none;letter-spacing:-0.02em;box-shadow:inset 0 0 0 1px oklch(1 0 0 / .14)}
 .job-main{flex:1;min-width:0}
 .job-top{display:flex;gap:10px;align-items:flex-start}
 .job h3{font-size:17.5px;line-height:1.3;letter-spacing:-0.015em;margin:0;font-weight:750}
@@ -159,9 +164,10 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .save-btn{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;min-height:38px}
 .save-btn:hover{border-color:var(--brand);color:var(--brand)}
 .save-btn[aria-pressed="true"]{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
-.apply{margin-top:auto;display:inline-flex;align-items:center;gap:7px;background:var(--action);color:var(--on-action);font-weight:800;font-size:14.5px;text-decoration:none;border-radius:10px;padding:11px 18px;min-height:44px}
+.apply{margin-top:auto;display:inline-flex;align-items:center;gap:7px;background:var(--action);color:var(--on-action);font-weight:800;font-size:14.5px;text-decoration:none;border-radius:12px;padding:11px 18px;min-height:44px;box-shadow:0 8px 18px -10px oklch(0.24 0.03 255 / .55);transition:background-color .16s ease-out,transform .16s ease-out}
 .apply:hover{background:var(--action-deep)}
-.empty{padding:52px 24px;text-align:center;color:var(--muted)}
+.apply:active{transform:scale(.98)}
+.empty{padding:52px 24px;text-align:center;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
 .empty strong{display:block;color:var(--ink);font-size:18px;margin-bottom:6px}
 .empty button{margin-top:14px;font:inherit;font-weight:700;color:var(--brand);background:var(--brand-soft);border:0;border-radius:10px;padding:11px 18px;cursor:pointer;min-height:44px}
 
