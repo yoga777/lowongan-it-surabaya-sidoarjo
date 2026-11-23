@@ -44,7 +44,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
 a{color:inherit}
 .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
 
@@ -137,9 +137,13 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
 
 /* ===== <=1023px: filter jadi panel atas + chip geser ===== */
 @media (max-width:1023px){
- .layout{grid-template-columns:1fr}
+ /* minmax(0,1fr) + min-width:0 wajib: tanpa itu kolom grid ikut lebar
+    min-content baris chip filter (flex nowrap) dan semua card melebar
+    keluar layar (~548px di viewport 360px) */
+ .layout{grid-template-columns:minmax(0,1fr)}
+ aside,main{min-width:0}
  aside{position:static;padding:16px}
- .fgroup{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+ .fgroup{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;min-width:0;max-width:100%;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
  .fbtn{width:auto;flex:none;border:1px solid var(--line);border-radius:999px;padding:8px 14px}
  .fbtn[aria-pressed="true"]{border-color:var(--brand)}
  aside .stack{display:grid;grid-template-columns:1fr 1fr;gap:12px}
