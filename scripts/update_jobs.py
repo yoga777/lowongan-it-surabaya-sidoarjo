@@ -7,8 +7,11 @@ Teknologi Informasi (6281) per kota — menghasilkan lowongan INDIVIDUAL
 asli lengkap dengan perusahaan, lokasi, tanggal posting, dan tipe
 kerja (Kantor/Hibrid/Jarak jauh) dari sumbernya.
 Sumber PELENGKAP: hasil pencarian web (DuckDuckGo HTML + Bing HTML)
-untuk portal lain; dari sini yang diprioritaskan adalah URL lowongan
-individual (pola URL detail), halaman daftar portal dibatasi ketat.
+untuk portal lain; dari sini HANYA URL lowongan individual (pola URL
+detail) yang diambil — halaman daftar portal dibuang, agar tombol Lamar
+selalu membuka detail pekerjaan. Semua hasil juga melewati gerbang
+relevansi peran IT (judul/frasa teknis) karena klasifikasi portal saja
+terbukti membawa posting non-IT (F&B, sales, akunting).
 (RSS pencarian Bing berhenti mengembalikan hasil pada Nov 2026.)
 Hasil disaring (host berita/sosial dibuang, lowongan "(Closed)" dibuang),
 didedup berdasarkan URL, dan dikategorikan sederhana.
@@ -120,6 +123,42 @@ def fetch_bing(query: str):
                     "desc": _clean(pm.group(1)) if pm else ""})
     return out
 
+# ===== Gerbang relevansi peran IT =====
+# Klasifikasi portal saja tidak cukup: sebagian posting salah kategori
+# (F&B, staf dapur, sales, akunting ikut terbawa). Gerbang dua lapis:
+# judul mengandung kata peran IT, ATAU ringkasan mengandung frasa teknis
+# kuat (untuk konsultan ERP, analis sistem, dsb. yang judulnya umum).
+ROLE_KEYS = [
+    "developer", "programmer", "programer", "software", "engineer", "data",
+    "qa", "quality assurance", "tester", "testing", "devops", "network",
+    "system", "sistem", "database", "web", "mobile", "android", "ios",
+    "flutter", "frontend", "front-end", "backend", "back-end", "fullstack",
+    "full-stack", "full stack", "security", "cyber", "cloud", "helpdesk",
+    "support", "analyst", "analis", "administrator", "teknisi", "noc",
+    "erp", "sap", "automation", "machine learning", "infrastruktur",
+    "infrastructure", "teknologi", "technology", "informasi", "digital",
+    "scrum", "technical", "php", "java", "python", "javascript", "laravel",
+    "react", "node", "golang", "sql", "linux", "server", "hardware",
+    "telekomunikasi", "it", "ai", "ui", "ux",
+]
+STRONG_KEYS = [
+    "software", "erp", "sap", "sistem informasi", "database", "server",
+    "aplikasi", "programming", "pemrograman", "teknologi informasi",
+    "jaringan", "it support", "information technology", "data center",
+    "cloud", "cyber", "keamanan siber",
+]
+
+def it_role_gate(title: str, teaser: str = "") -> bool:
+    t = title.lower()
+    for k in ROLE_KEYS:
+        if len(k) >= 4:
+            if k in t:
+                return True
+        elif re.search(r"\b" + re.escape(k) + r"\b", t):
+            return True
+    s = (teaser or "").lower()
+    return any(k in s for k in STRONG_KEYS)
+
 # ===== Sumber utama: API Jobstreet (SEEK), klasifikasi IT 6281 =====
 SEEK_CITIES = [
     "Surabaya", "Sidoarjo", "Gresik", "Mojokerto", "Jakarta", "Tangerang",
@@ -157,6 +196,8 @@ def fetch_jobstreet(city: str):
         title = (j.get("title") or "").strip()
         if not title or "(closed)" in title.lower():
             continue
+        if not it_role_gate(title, j.get("teaser") or ""):
+            continue
         locs = j.get("locations") or []
         label = locs[0].get("label", "") if locs else ""
         loc = location_of(label) if any(l.lower() in label.lower() for l in LOCATIONS) else location_of(city)
@@ -189,7 +230,7 @@ POSTING_RES = [
     r"indeed\.com/viewjob",
     r"jobs\.smartrecruiters\.com/",
     r"kalibrr\.com/c/[^/]+/jobs/",
-    r"dealls\.com/peluang-kerja/",
+    r"dealls\.com/(peluang-kerja|loker)/",
     r"boards\.greenhouse\.io/[^/]+/jobs/",
     r"jobs\.lever\.co/",
     r"apply\.workable\.com/",
@@ -275,6 +316,7 @@ def main() -> int:
     seen, jobs = set(), []
 
     # 1) Sumber utama: lowongan individual Jobstreet per kota.
+    seen_tcl = set()
     for ci, city in enumerate(SEEK_CITIES):
         if ci:
             time.sleep(0.4)
@@ -282,14 +324,19 @@ def main() -> int:
             for job in fetch_jobstreet(city):
                 if job["url"] in seen:
                     continue
+                tcl = (job["title"].lower(), (job.get("company") or "").lower(), job["location"])
+                if tcl in seen_tcl:
+                    continue  # posting ulang: judul+perusahaan+kota sama
+                seen_tcl.add(tcl)
                 seen.add(job["url"])
                 jobs.append(job)
         except Exception as e:
             print(f"WARN: Jobstreet gagal: {city}: {e}", file=sys.stderr)
 
-    # 2) Pelengkap pencarian web: individual diprioritaskan, halaman
-    #    daftar dibatasi maks 1 per (sumber, kota).
-    postings, listings, listing_keys = [], [], set()
+    # 2) Pelengkap pencarian web: HANYA lowongan individual (URL detail).
+    #    Halaman daftar portal dibuang — tombol Lamar harus membuka detail
+    #    pekerjaan, bukan daftar.
+    postings = []
     for qi, q in enumerate(QUERIES):
         if qi:
             time.sleep(1.2)  # jeda sopan antar-kueri agar tidak kena batas laju
@@ -313,6 +360,10 @@ def main() -> int:
                 continue
             if "(closed)" in title.lower() or "(ditutup)" in title.lower():
                 continue
+            if not is_posting(link):
+                continue  # halaman daftar/search portal — dibuang
+            if not it_role_gate(title, desc):
+                continue
             seen.add(link)
             source_name = source_name_of(host)
             job = {
@@ -332,14 +383,7 @@ def main() -> int:
             wt = work_type_of(title, desc)
             if wt:
                 job["work_type"] = wt
-            if is_posting(link):
-                postings.append(job)
-            else:
-                key = (source_name, job["location"])
-                if key in listing_keys:
-                    continue
-                listing_keys.add(key)
-                listings.append(job)
+            postings.append(job)
     # Urutkan Jobstreet terbaru dulu; beri kuota agar pelengkap dari
     # portal lain tetap dapat tempat. Batas per kota menjaga sebaran.
     jobs.sort(key=lambda j: j.get("_date", ""), reverse=True)
@@ -357,8 +401,7 @@ def main() -> int:
             final.append(job)
 
     take(jobs, 20, 120)       # utama: individual Jobstreet
-    take(postings, 25, 140)   # pelengkap: individual portal lain
-    take(listings, 25, 150)   # terakhir: halaman daftar (sudah dibatasi)
+    take(postings, 25, 150)   # pelengkap: individual portal lain
     if len(final) < 5:
         print(f"Hasil baru cuma {len(final)} (<5) — file lama dipertahankan.")
         return 0
