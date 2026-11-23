@@ -90,7 +90,18 @@ aside h2:first-child{margin-top:0}
 select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;width:100%;min-height:44px}
 .reset{margin-top:20px;width:100%;font:inherit;font-size:14.5px;font-weight:700;color:var(--brand);background:transparent;border:1px solid var(--line);border-radius:10px;padding:10px;cursor:pointer;min-height:44px}
 .reset:hover{border-color:var(--brand)}
-.loc-search{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:0 12px;margin-bottom:10px;color:var(--muted)}
+.loc-search-wrap{position:relative;margin-bottom:10px}
+.loc-suggest{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);max-height:264px;overflow-y:auto;z-index:40;padding:6px}
+.loc-suggest[hidden]{display:none}
+.loc-suggest button{display:flex;justify-content:space-between;align-items:baseline;gap:10px;width:100%;text-align:left;font:inherit;font-size:14.5px;font-weight:600;color:var(--ink);background:transparent;border:0;border-radius:8px;padding:9px 10px;cursor:pointer;min-height:42px}
+.loc-suggest button:hover,.loc-suggest button:focus-visible{background:var(--brand-soft)}
+.loc-suggest .meta2{font-size:12px;font-weight:600;color:var(--muted);text-align:right;flex:none}
+.loc-tag{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 14px;font-size:14px}
+.loc-tag[hidden]{display:none}
+.loc-tag .pill{display:inline-flex;align-items:center;gap:8px;background:var(--brand);color:var(--on-brand);font-weight:700;border-radius:999px;padding:7px 8px 7px 14px}
+.loc-tag .pill button{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:0;background:oklch(1 0 0 / .18);color:var(--on-brand);font-size:15px;line-height:1;cursor:pointer}
+.loc-tag .hint{color:var(--muted)}
+.loc-search{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:0 12px;color:var(--muted)}
 .loc-search:focus-within{border-color:var(--brand);color:var(--brand)}
 .loc-search svg{flex:none}
 .loc-search input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:15px;padding:11px 0;outline:none;min-height:44px}
@@ -244,12 +255,15 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
 <div class="wrap layout">
  <aside aria-label="Filter lowongan">
   <h2>Lokasi</h2>
-  <div class="loc-search">
-   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
-   <input id="locSearch" type="search" placeholder="Cari kota… mis. Bali, Jogja, Jakarta" aria-label="Cari lokasi kota">
+  <div class="loc-search-wrap">
+   <div class="loc-search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+    <input id="locSearch" type="search" placeholder="Cari kota/kabupaten… mis. Bogor, Bali, Jogja" aria-label="Cari lokasi kota atau kabupaten" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="locSuggest">
+   </div>
+   <div class="loc-suggest" id="locSuggest" role="listbox" aria-label="Saran kota dan kabupaten" hidden></div>
   </div>
   <div class="fgroup" id="locList"></div>
-  <p class="loc-empty" id="locEmpty" hidden>Kota tidak ditemukan di daftar lowongan.</p>
+  <p class="loc-empty" id="locEmpty" hidden>Tidak ada chip yang cocok — kota/kabupaten apa pun bisa dipilih dari saran yang muncul saat mengetik.</p>
   <button class="loc-btn" id="locBtn" type="button">Gunakan lokasi saya</button>
   <h2>Status</h2>
   <div class="fgroup" id="savedFilter"></div>
@@ -280,6 +294,7 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
    </label>
   </div>
   <p class="loc-note" id="locNote" hidden></p>
+  <p class="loc-tag" id="locTag" hidden></p>
   <div class="panel" id="jobPanel">
    <div class="empty" id="loadingBox"><strong>Memuat lowongan…</strong>Sedang mengambil data terbaru.</div>
   </div>
@@ -299,7 +314,7 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
 <script>
 const $=id=>document.getElementById(id);
 const q=$('q'),catSel=$('catSel'),srcSel=$('srcSel'),sortSel=$('sortSel'),panel=$('jobPanel'),locList=$('locList'),savedBox=$('savedFilter');
-let JOBS=[],activeLoc='Semua',onlySaved=false;
+let JOBS=[],activeLoc='Semua',activeJobLoc='Semua',onlySaved=false;
 let SAVED=new Set();try{SAVED=new Set(JSON.parse(localStorage.getItem('lokerit-saved')||'[]'))}catch(e){}
 const AV_COLORS=['oklch(0.52 0.13 162)','oklch(0.55 0.14 255)','oklch(0.58 0.15 25)','oklch(0.55 0.13 305)','oklch(0.58 0.12 85)','oklch(0.55 0.14 200)','oklch(0.52 0.15 350)','oklch(0.56 0.12 130)'];
 const CAT_COLORS={'Programming':['oklch(0.47 0.15 256)','oklch(0.935 0.032 255)'],'Fullstack':['oklch(0.47 0.15 256)','oklch(0.935 0.032 255)'],'Backend':['oklch(0.48 0.11 255)','oklch(0.93 0.035 255)'],'Frontend':['oklch(0.52 0.13 350)','oklch(0.95 0.03 350)'],'Mobile':['oklch(0.52 0.13 350)','oklch(0.95 0.03 350)'],'IT Support & Infrastruktur':['oklch(0.48 0.11 255)','oklch(0.93 0.035 255)'],'IT Support':['oklch(0.48 0.11 255)','oklch(0.93 0.035 255)'],'Data & QA':['oklch(0.50 0.12 305)','oklch(0.94 0.03 305)'],'Data':['oklch(0.50 0.12 305)','oklch(0.94 0.03 305)'],'QA':['oklch(0.50 0.12 305)','oklch(0.94 0.03 305)'],'Design & Product':['oklch(0.52 0.13 350)','oklch(0.95 0.03 350)'],'ERP & Sistem Bisnis':['oklch(0.50 0.11 85)','oklch(0.94 0.04 85)'],'DevOps & Network':['oklch(0.50 0.11 85)','oklch(0.94 0.04 85)'],'Teknisi & Engineering':['oklch(0.50 0.12 35)','oklch(0.94 0.04 35)'],'IT Lainnya':['oklch(0.50 0.03 200)','oklch(0.93 0.015 200)'],'Lainnya':['oklch(0.50 0.03 200)','oklch(0.93 0.015 200)']};
@@ -329,9 +344,9 @@ function buildLoc(){
  const counts={};JOBS.forEach(j=>{counts[j.location]=(counts[j.location]||0)+1});
  const locs=['Semua',...Object.keys(counts).sort((a,b)=>counts[b]-counts[a])];
  const shown=locs.filter(locMatches);
- locList.innerHTML=shown.map(l=>'<button type="button" class="fbtn" data-loc="'+esc(l)+'" aria-pressed="'+(l===activeLoc)+'"><span>'+esc(l)+'</span><span class="n">'+(l==='Semua'?JOBS.length:counts[l])+'</span></button>').join('');
+ locList.innerHTML=shown.map(l=>'<button type="button" class="fbtn" data-loc="'+esc(l)+'" aria-pressed="'+(l===activeJobLoc)+'"><span>'+esc(l)+'</span><span class="n">'+(l==='Semua'?JOBS.length:counts[l])+'</span></button>').join('');
  $('locEmpty').hidden=shown.length>1||!locQuery;
- locList.querySelectorAll('button').forEach(b=>b.onclick=()=>{activeLoc=b.dataset.loc;saveLocPref();hideLocNote();buildLoc();render()});
+ locList.querySelectorAll('button').forEach(b=>b.onclick=()=>{activeLoc=b.dataset.loc;activeJobLoc=b.dataset.loc;saveLocPref();hideLocNote();buildLoc();render()});
 }
 function buildSaved(){
  savedBox.innerHTML='<button type="button" class="fbtn" id="allBtn" aria-pressed="'+(!onlySaved)+'"><span>Semua lowongan</span><span class="n">'+JOBS.length+'</span></button>'
@@ -344,7 +359,7 @@ function fillSelect(sel,vals,all){sel.innerHTML='<option value="">'+all+'</optio
 function render(){
  const query=q.value.trim().toLowerCase();
  let rows=JOBS.filter(j=>{
-  if(activeLoc!=='Semua'&&j.location!==activeLoc)return false;
+  if(activeLoc!=='Semua'&&(!activeJobLoc||j.location!==activeJobLoc))return false;
   if(onlySaved&&!SAVED.has(jobKey(j)))return false;
   if(catSel.value&&j.category!==catSel.value)return false;
   if(srcSel.value&&j.source_name!==srcSel.value)return false;
@@ -355,7 +370,13 @@ function render(){
  if(sortSel.value==='company')rows.sort((a,b)=>a.company.localeCompare(b.company,'id'));
  if(sortSel.value==='location')rows.sort((a,b)=>a.location.localeCompare(b.location,'id'));
  $('resultCount').textContent=rows.length+' dari '+JOBS.length+' lowongan';
+ renderLocTag();
  if(!rows.length){
+  if(activeLoc!=='Semua'&&!activeJobLoc){
+   panel.innerHTML='<div class="empty"><strong>Belum ada lowongan untuk '+esc(activeLoc)+'</strong>Kota ini tetap terpilih dan tersimpan — begitu ada lowongan di kota ini, akan langsung muncul di sini. Sementara itu, kamu bisa melihat semua lokasi.<br><button type="button" id="emptyAll">Lihat semua lokasi</button></div>';
+   $('emptyAll').onclick=()=>{activeLoc='Semua';activeJobLoc='Semua';saveLocPref();hideLocNote();buildLoc();render()};
+   return;
+  }
   panel.innerHTML='<div class="empty"><strong>'+(onlySaved&&!SAVED.size?'Belum ada lowongan tersimpan':'Tidak ada lowongan yang cocok')+'</strong>'+(onlySaved&&!SAVED.size?'Tekan tombol Simpan pada lowongan yang menarik, lalu kembali ke sini.':'Coba longgarkan kata kunci atau atur ulang filter.')+'<br><button type="button" id="emptyReset">Atur ulang filter</button></div>';
   $('emptyReset').onclick=resetAll;return;
  }
@@ -381,23 +402,85 @@ function render(){
   buildSaved();render();
  });
 }
-function resetAll(){q.value='';catSel.value='';srcSel.value='';sortSel.value='default';activeLoc='Semua';onlySaved=false;locQuery='';const ls=$('locSearch');if(ls)ls.value='';try{localStorage.removeItem('lokerit-loc')}catch(e){}hideLocNote();buildLoc();buildSaved();render()}
+function resetAll(){q.value='';catSel.value='';srcSel.value='';sortSel.value='default';activeLoc='Semua';activeJobLoc='Semua';onlySaved=false;locQuery='';const ls=$('locSearch');if(ls)ls.value='';hideSuggest();try{localStorage.removeItem('lokerit-loc')}catch(e){}hideLocNote();buildLoc();buildSaved();render()}
 
 /* ===== Default filter sesuai lokasi user ===== */
 const CITY_COORDS={'Jakarta':[-6.2088,106.8456],'Tangerang':[-6.1702,106.6403],'Bekasi':[-6.2383,106.9756],'Bogor':[-6.5971,106.806],'Depok':[-6.4025,106.7942],'Bandung':[-6.9175,107.6191],'Cimahi':[-6.8841,107.5239],'Semarang':[-6.9667,110.4167],'Yogyakarta':[-7.7956,110.3695],'Solo':[-7.5755,110.8243],'Surabaya':[-7.2575,112.7521],'Sidoarjo':[-7.4478,112.7183],'Gresik':[-7.1564,112.6555],'Mojokerto':[-7.4706,112.4401],'Malang':[-7.9666,112.6326],'Kediri':[-7.8166,112.0118],'Denpasar':[-8.6705,115.2126],'Medan':[3.5952,98.6722],'Palembang':[-2.9761,104.7754],'Batam':[1.0456,104.0305],'Pekanbaru':[0.5071,101.4478],'Balikpapan':[-1.2379,116.8529],'Samarinda':[-0.4948,117.1436],'Pontianak':[-0.0263,109.3425],'Makassar':[-5.1477,119.4327],'Banjarmasin':[-3.3186,114.5944],'Manado':[1.4748,124.8421]};
 function saveLocPref(){try{localStorage.setItem('lokerit-loc',activeLoc)}catch(e){}}
+/* ===== Kota/kabupaten dari API publik wilayah Indonesia (emsifa) ===== */
+const METRO_MAP={'Sleman':'Yogyakarta','Bantul':'Yogyakarta','Badung':'Denpasar'};
+function jobLocSet(){return new Set(JOBS.map(j=>j.location))}
+function mapToJobLoc(name){
+ const set=jobLocSet();
+ if(set.has(name))return name;
+ if(name.indexOf('Jakarta')===0&&set.has('Jakarta'))return 'Jakarta';
+ if(name==='Tangerang Selatan'&&set.has('Tangerang'))return 'Tangerang';
+ if(METRO_MAP[name]&&set.has(METRO_MAP[name]))return METRO_MAP[name];
+ return null;
+}
+let REGENCIES=[];
+function titleCaseId(s){return s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+function parseRegency(raw){
+ let name=raw||'',type='';
+ if(/^KOTA ADMINISTRASI /.test(name)){type='Kota';name=name.slice(18)}
+ else if(/^KABUPATEN ADMINISTRASI /.test(name)){type='Kab.';name=name.slice(23)}
+ else if(/^KABUPATEN /.test(name)){type='Kab.';name=name.slice(10)}
+ else if(/^KOTA /.test(name)){type='Kota';name=name.slice(5)}
+ return {name:titleCaseId(name.trim()),type};
+}
+function loadRegencies(){
+ try{const c=JSON.parse(localStorage.getItem('lokerit-wilayah-v1')||'null');if(c&&Date.now()-c.ts<7*24*3600*1000&&Array.isArray(c.data)&&c.data.length>100){REGENCIES=c.data;return}}catch(e){}
+ fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json').then(r=>r.json()).then(provs=>{
+  const provName={};provs.forEach(p=>{provName[p.id]=titleCaseId(p.name)});
+  return Promise.all(provs.map(p=>fetch('https://www.emsifa.com/api-wilayah-indonesia/api/regencies/'+p.id+'.json').then(r=>r.json()).then(regs=>regs.map(rg=>{const pr=parseRegency(rg.name);return {name:pr.name,type:pr.type,prov:provName[rg.province_id]||''}})).catch(()=>[])));
+ }).then(lists=>{
+  REGENCIES=lists.flat();
+  try{localStorage.setItem('lokerit-wilayah-v1',JSON.stringify({ts:Date.now(),data:REGENCIES}))}catch(e){}
+  if(locQuery)renderSuggest();
+ }).catch(()=>{});
+}
+const locSearchEl=$('locSearch');
+const locSuggestEl=$('locSuggest');
+function hideSuggest(){locSuggestEl.hidden=true;locSearchEl.setAttribute('aria-expanded','false')}
+function renderSuggest(){
+ const query=locQuery;
+ if(!query||query.length<2||!REGENCIES.length){hideSuggest();return}
+ const starts=[],contains=[];
+ REGENCIES.forEach(r=>{const n=r.name.toLowerCase();if(n.startsWith(query))starts.push(r);else if(n.includes(query))contains.push(r)});
+ const hits=[...starts,...contains].slice(0,8);
+ if(!hits.length){hideSuggest();return}
+ locSuggestEl.innerHTML=hits.map(r=>'<button type="button" role="option" data-city="'+esc(r.name)+'"><span>'+esc(r.name)+'</span><span class="meta2">'+esc(r.type)+' · '+esc(r.prov)+'</span></button>').join('');
+ locSuggestEl.hidden=false;locSearchEl.setAttribute('aria-expanded','true');
+ locSuggestEl.querySelectorAll('button').forEach(b=>b.addEventListener('mousedown',e=>{e.preventDefault();selectCity(b.dataset.city)}));
+}
+function renderLocTag(){
+ const tag=$('locTag');
+ if(activeLoc==='Semua'){tag.hidden=true;tag.innerHTML='';return}
+ let hint='';
+ if(activeJobLoc&&activeJobLoc!==activeLoc)hint='Menampilkan lowongan '+esc(activeJobLoc)+' (area terdekat yang tersedia).';
+ else if(!activeJobLoc)hint='Belum ada lowongan untuk kota ini.';
+ tag.innerHTML='<span class="pill">'+icoPin+esc(activeLoc)+'<button type="button" id="locTagX" aria-label="Hapus pilihan kota">×</button></span>'+(hint?'<span class="hint">'+hint+'</span>':'');
+ tag.hidden=false;
+ $('locTagX').onclick=()=>{activeLoc='Semua';activeJobLoc='Semua';saveLocPref();hideLocNote();buildLoc();render()};
+}
+function selectCity(name){
+ activeLoc=name;activeJobLoc=mapToJobLoc(name);
+ locQuery='';locSearchEl.value='';hideSuggest();
+ saveLocPref();hideLocNote();buildLoc();render();
+ document.getElementById('daftar').scrollIntoView({behavior:'smooth'});
+}
 function havKm(a,b,c,d){const R=6371,r=Math.PI/180;const x=(c-a)*r,y=(d-b)*r;const h=Math.sin(x/2)**2+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
 function nearestJobLoc(lat,lon){
  let best=null,bestKm=1e9;
  [...new Set(JOBS.map(j=>j.location))].forEach(loc=>{const cc=CITY_COORDS[loc];if(!cc)return;const km=havKm(lat,lon,cc[0],cc[1]);if(km<bestKm){bestKm=km;best=loc}});
  return best&&bestKm<=150?{loc:best,km:Math.round(bestKm)}:null;
 }
-function showLocNote(html){const n=$('locNote');n.innerHTML=html+' <button type="button" id="locAllBtn">Lihat semua lokasi</button>';n.hidden=false;$('locAllBtn').onclick=()=>{activeLoc='Semua';saveLocPref();hideLocNote();buildLoc();render()}}
+function showLocNote(html){const n=$('locNote');n.innerHTML=html+' <button type="button" id="locAllBtn">Lihat semua lokasi</button>';n.hidden=false;$('locAllBtn').onclick=()=>{activeLoc='Semua';activeJobLoc='Semua';saveLocPref();hideLocNote();buildLoc();render()}}
 function hideLocNote(){$('locNote').hidden=true}
 function applyUserLatLon(lat,lon,asal){
  const near=nearestJobLoc(lat,lon);
- if(!near){activeLoc='Semua';buildLoc();render();showLocNote('Lokasi kamu ('+esc(asal)+') belum punya lowongan di daftar ini — menampilkan semua lokasi.');return false}
- activeLoc=near.loc;buildLoc();render();
+ if(!near){activeLoc='Semua';activeJobLoc='Semua';buildLoc();render();showLocNote('Lokasi kamu ('+esc(asal)+') belum punya lowongan di daftar ini — menampilkan semua lokasi.');return false}
+ activeLoc=near.loc;activeJobLoc=near.loc;buildLoc();render();
  showLocNote('Lokasi kamu di sekitar <strong>'+esc(asal)+'</strong> — menampilkan lowongan <strong>'+esc(near.loc)+'</strong> (±'+near.km+' km).');
  return true;
 }
@@ -423,7 +506,7 @@ fetch('data/jobs.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HT
  JOBS=(d.jobs||[]).map(normalizeJob);
  $('updatedLine').textContent=JOBS.length+' lowongan aktif · Data diperbarui '+fmtDate(d.fetchedAt);
  let savedLoc=null;try{savedLoc=localStorage.getItem('lokerit-loc')}catch(e){}
- if(savedLoc&&(savedLoc==='Semua'||JOBS.some(j=>j.location===savedLoc)))activeLoc=savedLoc;
+ if(savedLoc){activeLoc=savedLoc;activeJobLoc=savedLoc==='Semua'?'Semua':mapToJobLoc(savedLoc)}
  buildLoc();buildSaved();
  fillSelect(catSel,[...new Set(JOBS.map(j=>j.category))].sort(),'Semua kategori');
  fillSelect(srcSel,[...new Set(JOBS.map(j=>j.source_name))].sort(),'Semua sumber');
@@ -431,21 +514,26 @@ fetch('data/jobs.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HT
  $('quickChips').innerHTML='<span>Pencarian populer:</span>'+pops.map(p=>'<button type="button" data-q="'+p+'">'+p+'</button>').join('');
  $('quickChips').querySelectorAll('button').forEach(b=>b.onclick=()=>{q.value=b.dataset.q;render();document.getElementById('daftar').scrollIntoView({behavior:'smooth'})});
  render();
+ loadRegencies();
  if(!savedLoc)detectLocByIP();
 }).catch(()=>{panel.innerHTML='<div class="empty"><strong>Data belum bisa dimuat</strong>Coba muat ulang halaman ini beberapa saat lagi.</div>'});
 
 $('searchForm').addEventListener('submit',e=>{e.preventDefault();render();document.getElementById('daftar').scrollIntoView({behavior:'smooth'})});
 q.addEventListener('input',render);catSel.onchange=render;srcSel.onchange=render;sortSel.onchange=render;
 $('resetBtn').onclick=resetAll;
-const locSearchEl=$('locSearch');
-locSearchEl.addEventListener('input',()=>{locQuery=locSearchEl.value.trim().toLowerCase();buildLoc()});
+locSearchEl.addEventListener('input',()=>{locQuery=locSearchEl.value.trim().toLowerCase();buildLoc();renderSuggest()});
+locSearchEl.addEventListener('focus',()=>renderSuggest());
+locSearchEl.addEventListener('blur',()=>setTimeout(hideSuggest,150));
 locSearchEl.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){hideSuggest();return}
  if(e.key!=='Enter')return;
  e.preventDefault();
+ const sug=locSuggestEl.querySelector('button[data-city]');
+ if(sug&&!locSuggestEl.hidden){selectCity(sug.dataset.city);return}
  const first=locList.querySelector('button[data-loc]:not([data-loc="Semua"])')||locList.querySelector('button[data-loc]');
  if(first)first.click();
 });
-locSearchEl.addEventListener('search',()=>{locQuery=locSearchEl.value.trim().toLowerCase();buildLoc()});
+locSearchEl.addEventListener('search',()=>{locQuery=locSearchEl.value.trim().toLowerCase();buildLoc();renderSuggest()});
 const toTop=$('toTop');
 addEventListener('scroll',()=>{toTop.classList.toggle('show',scrollY>600)},{passive:true});
 toTop.onclick=()=>scrollTo({top:0,behavior:'smooth'});
