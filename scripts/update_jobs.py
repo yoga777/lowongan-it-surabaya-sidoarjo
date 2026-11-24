@@ -6,6 +6,11 @@ Sumber UTAMA: API pencarian publik Jobstreet (SEEK) dengan klasifikasi
 Teknologi Informasi (6281) per kota — menghasilkan lowongan INDIVIDUAL
 asli lengkap dengan perusahaan, lokasi, tanggal posting, dan tipe
 kerja (Kantor/Hibrid/Jarak jauh) dari sumbernya.
+Sumber KEDUA: API publik Dealls (api.sejutacita.id/v1/explore-job/job,
+pencarian per kata kunci peran IT). Sumber KETIGA: Glints — data
+terstruktur (__NEXT_DATA__) di halaman find-jobs per kota/kata kunci
+(API resminya terkunci login, tapi halaman publiknya membawa data job
+lengkap: perusahaan, lokasi, gaji, tipe kerja).
 Sumber PELENGKAP: hasil pencarian web (DuckDuckGo HTML + Bing HTML)
 untuk portal lain; dari sini HANYA URL lowongan individual (pola URL
 detail) yang diambil — halaman daftar portal dibuang, agar tombol Lamar
@@ -254,6 +259,131 @@ def fetch_jobstreet(city: str):
         out.append(job)
     return out
 
+def rel_id(iso: str) -> str:
+    """ISO datetime -> label relatif ala Jobstreet ('3 jam yang lalu')."""
+    try:
+        dt = datetime.fromisoformat((iso or "").replace("Z", "+00:00"))
+    except ValueError:
+        return ""
+    secs = max(0, int((datetime.now(timezone.utc) - dt).total_seconds()))
+    if secs < 3600:
+        return f"{max(1, secs // 60)} menit yang lalu"
+    if secs < 86400:
+        return f"{secs // 3600} jam yang lalu"
+    if secs < 30 * 86400:
+        return f"{secs // 86400} hari yang lalu"
+    return f"{secs // (30 * 86400)} bulan yang lalu"
+
+def rp(n) -> str:
+    return "Rp " + f"{int(n):,}".replace(",", ".")
+
+# ===== Sumber kedua: Dealls (API publik api.sejutacita.id) =====
+DEALLS_SEARCHES = ["developer", "software", "engineer", "data", "qa",
+                   "IT support", "programmer", "IT", "devops", "frontend"]
+
+def fetch_dealls(keyword: str):
+    qs = urllib.parse.urlencode({"search": keyword, "page": 1, "limit": 30})
+    url = "https://api.sejutacita.id/v1/explore-job/job?" + qs
+    req = urllib.request.Request(url, headers=UA)
+    with urllib.request.urlopen(req, timeout=30) as r:
+        data = json.load(r)
+    out = []
+    for j in data.get("data", {}).get("docs", []):
+        if j.get("status") != "active":
+            continue
+        title = (j.get("role") or "").strip()
+        if not title or "(closed)" in title.lower():
+            continue
+        city = (j.get("city") or {}).get("name", "")
+        loc_text = city or title
+        if not any(l.lower() in loc_text.lower() for l in LOCATIONS):
+            continue
+        if not it_role_gate(title, ""):
+            continue
+        comp = j.get("company") or {}
+        url_job = f"https://dealls.com/loker/{j.get('slug')}~{comp.get('slug') or ''}".rstrip("~")
+        wp = (j.get("workplaceType") or "").lower()
+        job = {
+            "title": title[:140],
+            "company": comp.get("name") or None,
+            "location": location_of(loc_text),
+            "category": categorize(title, ""),
+            "url": url_job,
+            "sourceUrl": url_job,
+            "source_name": "Dealls",
+            "sourceName": "Dealls",
+            "summary": "",
+            "posted": rel_id(j.get("publishedAt") or ""),
+            "_date": j.get("publishedAt") or "",
+        }
+        if "remote" in wp:
+            job["work_type"] = "remote"
+        elif "hybrid" in wp or "hibrid" in wp:
+            job["work_type"] = "hybrid"
+        elif wp:
+            job["work_type"] = "onsite"
+        out.append(job)
+    return out
+
+# ===== Sumber ketiga: Glints (data terstruktur di halaman find-jobs) =====
+GLINTS_CITIES = ["surabaya", "jakarta", "bandung", "semarang", "yogyakarta",
+                 "tangerang", "denpasar", "medan", "malang"]
+GLINTS_KEYWORDS = ["programmer", "developer"]
+
+def _slugify(text: str) -> str:
+    return re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", text.lower())).strip("-")
+
+def fetch_glints(city_slug: str, keyword: str):
+    url = f"https://glints.com/id/find-jobs/loker-{keyword}-{city_slug}"
+    page = _get(url)
+    m = re.search(r'id="__NEXT_DATA__"[^>]*>(.*?)</script>', page, re.S)
+    if not m:
+        return []
+    data = json.loads(m.group(1))
+    jobs = data.get("props", {}).get("pageProps", {}).get("initialJobs", {}).get("jobsInPage", [])
+    out = []
+    for j in jobs:
+        if j.get("status") != "OPEN":
+            continue
+        title = (j.get("title") or "").strip()
+        if not title or "(closed)" in title.lower():
+            continue
+        loc = j.get("location") or {}
+        names = [p.get("name", "") for p in loc.get("parents", [])] + [loc.get("name", "")]
+        loc_text = " ".join(n for n in names if n)
+        if not any(l.lower() in loc_text.lower() for l in LOCATIONS):
+            continue
+        cat_name = (j.get("hierarchicalJobCategory") or {}).get("name", "")
+        if not it_role_gate(title, cat_name):
+            continue
+        comp = (j.get("company") or {}).get("name")
+        url_job = f"https://glints.com/id/opportunities/jobs/{_slugify(title)}/{j.get('id')}"
+        job = {
+            "title": title[:140],
+            "company": comp or None,
+            "location": location_of(loc_text),
+            "category": categorize(title, cat_name),
+            "url": url_job,
+            "sourceUrl": url_job,
+            "source_name": "Glints",
+            "sourceName": "Glints",
+            "summary": "",
+            "posted": rel_id(j.get("createdAt") or ""),
+            "_date": j.get("updatedAt") or j.get("createdAt") or "",
+        }
+        wa = (j.get("workArrangementOption") or "").upper()
+        if wa in ("REMOTE", "HYBRID", "ONSITE"):
+            job["work_type"] = wa.lower()
+        sals = j.get("salaries") or []
+        if sals and j.get("shouldShowSalary") in (True, "True"):
+            s0 = sals[0]
+            mn, mx = s0.get("minAmount"), s0.get("maxAmount")
+            if mn:
+                job["salary"] = f"{rp(mn)} – {rp(mx)} per month" if mx and mx != mn else f"{rp(mn)} per month"
+                job["salary_min"] = int(mn)
+        out.append(job)
+    return out
+
 # Pola URL lowongan INDIVIDUAL (detail) untuk sumber pelengkap pencarian.
 POSTING_RES = [
     r"glints\.com/id/opportunities/jobs/",
@@ -364,6 +494,40 @@ def main() -> int:
         except Exception as e:
             print(f"WARN: Jobstreet gagal: {city}: {e}", file=sys.stderr)
 
+    # 1b) Sumber kedua & ketiga: Dealls (API) dan Glints (halaman
+    #     find-jobs). Digabung satu kolam, dedup URL + judul/perusahaan/kota.
+    extra = []
+    for kw in DEALLS_SEARCHES:
+        try:
+            for job in fetch_dealls(kw):
+                if job["url"] in seen:
+                    continue
+                tcl = (job["title"].lower(), (job.get("company") or "").lower(), job["location"])
+                if tcl in seen_tcl:
+                    continue
+                seen_tcl.add(tcl)
+                seen.add(job["url"])
+                extra.append(job)
+        except Exception as e:
+            print(f"WARN: Dealls gagal: {kw}: {e}", file=sys.stderr)
+        time.sleep(0.3)
+    for city_slug in GLINTS_CITIES:
+        for kw in GLINTS_KEYWORDS:
+            try:
+                for job in fetch_glints(city_slug, kw):
+                    if job["url"] in seen:
+                        continue
+                    tcl = (job["title"].lower(), (job.get("company") or "").lower(), job["location"])
+                    if tcl in seen_tcl:
+                        continue
+                    seen_tcl.add(tcl)
+                    seen.add(job["url"])
+                    extra.append(job)
+            except Exception as e:
+                print(f"WARN: Glints gagal: {city_slug}/{kw}: {e}", file=sys.stderr)
+            time.sleep(0.3)
+    extra.sort(key=lambda j: j.get("_date", ""), reverse=True)
+
     # 2) Pelengkap pencarian web: HANYA lowongan individual (URL detail).
     #    Halaman daftar portal dibuang — tombol Lamar harus membuka detail
     #    pekerjaan, bukan daftar.
@@ -435,8 +599,9 @@ def main() -> int:
             job.pop("_date", None)
             final.append(job)
 
-    take(jobs, 20, 120)       # utama: individual Jobstreet
-    take(postings, 25, 150)   # pelengkap: individual portal lain
+    take(jobs, 20, 100)       # utama: individual Jobstreet
+    take(extra, 25, 140)      # kedua/ketiga: Dealls + Glints
+    take(postings, 25, 150)   # pelengkap: individual dari pencarian web
     if len(final) < 5:
         print(f"Hasil baru cuma {len(final)} (<5) — file lama dipertahankan.")
         return 0
