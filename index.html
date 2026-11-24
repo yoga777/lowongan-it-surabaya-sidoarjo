@@ -397,7 +397,7 @@ function buildLoc(){
  const counts={};JOBS.forEach(j=>{counts[j.location]=(counts[j.location]||0)+1});
  const locs=['Semua',...Object.keys(counts).sort((a,b)=>counts[b]-counts[a])];
  const shown=locs.filter(locMatches);
- const LIMIT=9,fold=!locExpanded&&!locQuery;
+ const LIMIT=4,fold=!locExpanded&&!locQuery;
  locList.innerHTML=shown.map((l,i)=>'<button type="button" class="fbtn'+(fold&&i>=LIMIT&&l!==activeJobLoc?' extra':'')+'" data-loc="'+esc(l)+'" aria-pressed="'+(l===activeJobLoc)+'"><span>'+esc(l)+'</span><span class="n">'+(l==='Semua'?JOBS.length:counts[l])+'</span></button>').join('');
  const tg=$('locToggle');
  if(!locQuery&&shown.length>LIMIT){tg.hidden=false;tg.classList.toggle('open',locExpanded);tg.setAttribute('aria-expanded',String(locExpanded));tg.innerHTML=(locExpanded?'Sembunyikan daftar kota':'Lihat semua '+shown.length+' kota')+icoChev}else{tg.hidden=true}
