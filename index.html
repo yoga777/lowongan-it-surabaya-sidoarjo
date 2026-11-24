@@ -175,17 +175,23 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .save-btn svg,.apply svg,.meta svg{display:block;flex:none}
 .save-btn:hover{border-color:var(--brand);color:var(--brand)}
 .save-btn[aria-pressed="true"]{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
-.dmodal{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(10,18,38,.55);padding:0}
+.dmodal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(10,18,38,.55);padding:16px}
 .dmodal.open{display:flex}
-.dpanel{background:var(--surface);width:100%;max-width:680px;max-height:88vh;overflow:auto;border-radius:16px 16px 0 0;padding:22px 22px 18px;box-shadow:0 -12px 40px rgba(10,18,38,.25)}
-@media(min-width:640px){.dmodal{align-items:center;padding:20px}.dpanel{border-radius:16px}}
-.dpanel h2{font-size:19px;line-height:1.35;margin:0 36px 4px 0}
-.dcompany{color:var(--muted);font-size:14px;margin-bottom:12px}
+.dpanel{background:var(--surface);width:100%;max-width:640px;max-height:88vh;display:flex;flex-direction:column;border-radius:16px;box-shadow:0 24px 60px -12px rgba(10,18,38,.4);overflow:hidden;animation:dIn .18s ease-out}
+@keyframes dIn{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:none}}
+.dhead{display:flex;gap:12px;align-items:flex-start;padding:18px 20px 12px}
+.dhead .avatar{width:46px;height:46px;font-size:17px;border-radius:12px}
+.dhead-main{flex:1;min-width:0}
+.dpanel h2{font-size:18.5px;line-height:1.35;margin:0;font-weight:750;letter-spacing:-0.01em}
+.dcompany{color:var(--muted);font-size:14px;margin-top:3px;font-weight:600}
+.dclose{flex:none;width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:15px;line-height:1;cursor:pointer}
+.dclose:hover{color:var(--text);border-color:var(--brand)}
+.dbody{overflow:auto;padding:2px 20px 16px}
 .ddesc{white-space:pre-wrap;font-size:14px;line-height:1.65;color:var(--text);margin:14px 0 4px;overflow-wrap:anywhere}
 .ddesc-empty{color:var(--muted)}
-.dclose{position:sticky;top:0;float:right;width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:17px;line-height:1;cursor:pointer}
-.dfoot{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.dfoot{display:flex;gap:10px;justify-content:flex-end;padding:12px 20px;border-top:1px solid var(--line);background:var(--surface)}
 .dfoot .apply{min-height:40px}
+.dfoot .save-btn{min-height:40px}
 .apply{margin-top:auto;display:inline-flex;align-items:center;gap:6px;background:var(--action);color:var(--on-action);font-weight:800;font-size:14px;line-height:1;text-decoration:none;border-radius:10px;padding:9px 16px;min-height:40px;box-shadow:0 8px 18px -10px oklch(0.24 0.03 255 / .55);transition:background-color .16s ease-out,transform .16s ease-out}
 .apply:hover{background:var(--action-deep)}
 .apply:active{transform:scale(.98)}
@@ -231,10 +237,17 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
  .layout{padding-top:18px;gap:18px}
  aside{padding:14px}
  .fbtn{min-height:44px}
- /* Kartu mobile: isi ringkas, footer aksi selebar kartu */
+ /* Kartu mobile: avatar+judul sebaris, meta/ringkasan/tag selebar kartu */
  .job{gap:12px;padding:16px}
- .job-row{gap:12px}
- .avatar{width:46px;height:46px;font-size:17px;border-radius:12px}
+ .job-row{display:grid;grid-template-columns:42px 1fr;gap:8px 12px}
+ .job-main{display:contents}
+ .job .meta,.job .summary,.job .tags{grid-column:1/-1}
+ .job .meta{margin-top:2px}
+ .job .summary{margin-top:0}
+ .job .tags{margin-top:0}
+ .avatar{width:42px;height:42px;font-size:16px;border-radius:12px}
+ .job h3{font-size:16.5px}
+ .meta span{padding:3px 9px;font-size:12px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
  .job-foot{display:grid;grid-template-columns:1fr 1.25fr;gap:10px;padding-top:12px}
  .job-foot .save-btn{justify-content:center;min-height:44px;padding:9px 8px}
  .job-foot .apply{margin:0;justify-content:center;min-height:44px;padding:9px 8px;text-align:center}
@@ -463,7 +476,7 @@ function render(){
   +'<div class="job-row"><div class="avatar" style="background:'+avColor(j.company||j.title)+'" aria-hidden="true">'+esc(initials(j.company||j.title))+'</div>'
   +'<div class="job-main"><div class="job-top"><div><h3>'+titleHtml+'</h3>'
   +'<div class="company">'+esc(company)+'</div></div></div>'
-  +'<div class="meta"><span>'+icoPin+esc(j.location)+'</span>'+(j.salary?'<span>'+icoMoney+esc(j.salary)+'</span>':'')+(j.posted?'<span>'+icoClock+'Diposting '+esc(j.posted)+'</span>':'')+(j.source_name?'<span>Sumber: '+esc(j.source_name)+'</span>':'')+'</div>'
+  +'<div class="meta"><span>'+icoPin+esc(j.location)+'</span>'+(j.salary?'<span>'+icoMoney+esc(shortSalary(j.salary))+'</span>':'')+(j.posted?'<span>'+icoClock+'Diposting '+esc(j.posted)+'</span>':'')+(j.source_name?'<span>Sumber: '+esc(j.source_name)+'</span>':'')+'</div>'
   +(j.summary?'<p class="summary">'+esc(j.summary)+'</p>':'')
   +'<div class="tags"><span class="tag tag-cat" style="--tc:'+cc[0]+';--tb:'+cc[1]+'">'+esc(j.category)+'</span>'+(j.work_type?'<span class="tag tag-wt">'+WT_LABEL[j.work_type]+'</span>':'')+'</div></div></div>'
   +'<div class="job-foot"><button type="button" class="save-btn" data-key="'+esc(key)+'" aria-pressed="'+saved+'" aria-label="'+(saved?'Hapus dari tersimpan: ':'Simpan lowongan: ')+esc(j.title)+'">'+icoBmk(saved)+(saved?'Tersimpan':'Simpan')+'</button>'
@@ -481,10 +494,21 @@ function render(){
  });
  renderPager(rows.length,totalPages);
 }
+function shortSalary(s){
+ const nums=[...s.matchAll(/Rp\s*([\d.,]+)/g)].map(m=>parseInt(m[1].replace(/[.,]/g,''),10)).filter(n=>n>0);
+ if(!nums.length)return s;
+ const jt=n=>{const v=n/1e6;return (Number.isInteger(v)?String(v):v.toFixed(1).replace('.',',').replace(/,0$/,''))+' jt'};
+ if(/per month|per bulan|\/bulan/i.test(s)||nums.length>1){
+   if(nums.length>1&&nums[0]!==nums[1])return 'Rp '+jt(nums[0])+'–'+jt(nums[1])+'/bln';
+   return 'Rp '+jt(nums[0])+'/bln';
+ }
+ return s;
+}
 function openDetail(key){
  const j=JOBS.find(x=>jobKey(x)===key);if(!j)return;
  $('dTitle').textContent=j.title;
  $('dCompany').textContent=j.company||(j.source_name?'Via '+j.source_name:'Perusahaan tidak dicantumkan');
+ const av=$('dAvatar');av.textContent=initials(j.company||j.title);av.style.background=avColor(j.company||j.title);
  $('dMeta').innerHTML='<span>'+icoPin+esc(j.location)+'</span>'+(j.salary?'<span>'+icoMoney+esc(j.salary)+'</span>':'')+(j.posted?'<span>'+icoClock+'Diposting '+esc(j.posted)+'</span>':'')+(j.source_name?'<span>Sumber: '+esc(j.source_name)+'</span>':'');
  const cc=CAT_COLORS[j.category]||CAT_COLORS['Lainnya'];
  $('dTags').innerHTML='<span class="tag tag-cat" style="--tc:'+cc[0]+';--tb:'+cc[1]+'">'+esc(j.category)+'</span>'+(j.work_type?'<span class="tag tag-wt">'+WT_LABEL[j.work_type]+'</span>':'');
@@ -672,12 +696,19 @@ toTop.onclick=()=>scrollTo({top:0,behavior:'smooth'});
 </script>
 <div class="dmodal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="dTitle" hidden>
  <div class="dpanel">
-  <button type="button" class="dclose" id="dClose" aria-label="Tutup detail">✕</button>
-  <h2 id="dTitle"></h2>
-  <div class="dcompany" id="dCompany"></div>
-  <div class="meta" id="dMeta"></div>
-  <div class="tags" id="dTags" style="margin-top:10px"></div>
-  <div class="ddesc" id="dDesc"></div>
+  <div class="dhead">
+   <div class="avatar" id="dAvatar" aria-hidden="true"></div>
+   <div class="dhead-main">
+    <h2 id="dTitle"></h2>
+    <div class="dcompany" id="dCompany"></div>
+   </div>
+   <button type="button" class="dclose" id="dClose" aria-label="Tutup detail">✕</button>
+  </div>
+  <div class="dbody">
+   <div class="meta" id="dMeta" style="margin-top:0"></div>
+   <div class="tags" id="dTags" style="margin-top:10px"></div>
+   <div class="ddesc" id="dDesc"></div>
+  </div>
   <div class="dfoot">
    <button type="button" class="save-btn" id="dTutup">Tutup</button>
    <span id="dApply"></span>
