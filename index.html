@@ -140,7 +140,7 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 
 /* ===== Baris lowongan kaya ===== */
 .panel{display:flex;flex-direction:column;gap:14px}
-.job{display:flex;flex-direction:column;gap:14px;padding:20px clamp(16px,2.5vw,24px);background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);transition:transform .18s ease-out,box-shadow .18s ease-out,border-color .18s ease-out}
+.job{display:flex;flex-direction:column;gap:14px;padding:20px clamp(16px,2.5vw,24px);background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);transition:transform .18s ease-out,box-shadow .18s ease-out,border-color .18s ease-out;cursor:pointer}
 .job-row{display:flex;gap:16px;min-width:0}
 .job-foot{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:14px}
 .job-foot .apply{margin:0 0 0 auto}
@@ -175,7 +175,6 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .save-btn svg,.apply svg,.meta svg{display:block;flex:none}
 .save-btn:hover{border-color:var(--brand);color:var(--brand)}
 .save-btn[aria-pressed="true"]{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
-.detail-btn{color:var(--brand);border-color:var(--line)}
 .dmodal{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(10,18,38,.55);padding:0}
 .dmodal.open{display:flex}
 .dpanel{background:var(--surface);width:100%;max-width:680px;max-height:88vh;overflow:auto;border-radius:16px 16px 0 0;padding:22px 22px 18px;box-shadow:0 -12px 40px rgba(10,18,38,.25)}
@@ -458,9 +457,9 @@ function render(){
  panel.innerHTML=pageRows.map(j=>{
   const key=jobKey(j),saved=SAVED.has(key),cc=CAT_COLORS[j.category]||CAT_COLORS['Lainnya'];
   const company=j.company||(j.source_name?'Via '+j.source_name:'Perusahaan tidak dicantumkan');
-  const titleHtml=j.url?'<a href="'+esc(j.url)+'" target="_blank" rel="noopener">'+esc(j.title)+'</a>':esc(j.title);
+  const titleHtml=esc(j.title);
   const applyHtml=j.url?'<a class="apply" href="'+esc(j.url)+'" target="_blank" rel="noopener">Lamar <svg class="arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>':'<span class="apply disabled" aria-disabled="true">Link tidak tersedia</span>';
-  return '<article class="job">'
+  return '<article class="job" data-key="'+esc(key)+'" title="Klik untuk lihat detail">'
   +'<div class="job-row"><div class="avatar" style="background:'+avColor(j.company||j.title)+'" aria-hidden="true">'+esc(initials(j.company||j.title))+'</div>'
   +'<div class="job-main"><div class="job-top"><div><h3>'+titleHtml+'</h3>'
   +'<div class="company">'+esc(company)+'</div></div></div>'
@@ -468,7 +467,6 @@ function render(){
   +(j.summary?'<p class="summary">'+esc(j.summary)+'</p>':'')
   +'<div class="tags"><span class="tag tag-cat" style="--tc:'+cc[0]+';--tb:'+cc[1]+'">'+esc(j.category)+'</span>'+(j.work_type?'<span class="tag tag-wt">'+WT_LABEL[j.work_type]+'</span>':'')+'</div></div></div>'
   +'<div class="job-foot"><button type="button" class="save-btn" data-key="'+esc(key)+'" aria-pressed="'+saved+'" aria-label="'+(saved?'Hapus dari tersimpan: ':'Simpan lowongan: ')+esc(j.title)+'">'+icoBmk(saved)+(saved?'Tersimpan':'Simpan')+'</button>'
-  +'<button type="button" class="save-btn detail-btn" data-key="'+esc(key)+'">Detail</button>'
   +applyHtml+'</div></article>'
  }).join('');
  panel.querySelectorAll('.save-btn:not(.detail-btn)').forEach(b=>b.onclick=()=>{
@@ -477,7 +475,10 @@ function render(){
   try{localStorage.setItem('lokerit-saved',JSON.stringify([...SAVED]))}catch(e){}
   buildSaved();render();
  });
- panel.querySelectorAll('.detail-btn').forEach(b=>b.onclick=()=>openDetail(b.dataset.key));
+ panel.querySelectorAll('.job').forEach(card=>card.onclick=e=>{
+  if(e.target.closest('a,button'))return;
+  openDetail(card.dataset.key);
+ });
  renderPager(rows.length,totalPages);
 }
 function openDetail(key){
