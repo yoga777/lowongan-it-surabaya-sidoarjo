@@ -76,8 +76,6 @@ header.site{background:var(--brand-deep);color:var(--on-brand)}
 .quick span{font-size:13.5px;color:oklch(0.88 0.02 255);font-weight:600}
 .quick button{font:inherit;font-size:13.5px;font-weight:700;color:var(--on-brand);background:oklch(1 0 0 / .10);border:1px solid oklch(1 0 0 / .30);border-radius:999px;padding:7px 13px;cursor:pointer;min-height:36px}
 .quick button:hover{background:oklch(1 0 0 / .22)}
-.live-line{margin-top:20px;font-size:14px;color:oklch(0.90 0.02 255);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.dot{width:9px;height:9px;border-radius:50%;background:oklch(0.72 0.15 205);flex:none}
 
 /* ===== Layout responsif: sidebar >=1024, tumpuk di bawahnya ===== */
 .layout{display:grid;grid-template-columns:272px minmax(0,1fr);gap:clamp(20px,3vw,36px);padding:clamp(22px,4vw,36px) 0 56px;align-items:start}
@@ -107,7 +105,6 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .pager button[aria-current="page"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
 .pager button:disabled{opacity:.45;cursor:default}
 .pager .dots{color:var(--muted);padding:0 2px}
-.wt-note{margin:8px 0 0;font-size:12.5px;line-height:1.5;color:var(--muted)}
 .tag-wt{color:var(--brand);background:var(--brand-soft);border-color:transparent}
 .apply .arr{transition:transform .16s ease-out}
 .apply:hover .arr{transform:translateX(2px)}
@@ -279,24 +276,11 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
    <button type="submit">Cari Lowongan</button>
   </form>
   <div class="quick" id="quickChips"><span>Pencarian populer:</span></div>
-  <p class="live-line"><span class="dot" aria-hidden="true"></span><span id="updatedLine">Memuat data terbaru…</span></p>
  </div>
 </section>
 
 <div class="wrap layout">
  <aside aria-label="Filter lowongan">
-  <h2>Lokasi</h2>
-  <div class="loc-search-wrap">
-   <div class="loc-search">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
-    <input id="locSearch" type="search" placeholder="Cari kota/kabupaten… mis. Bogor, Bali, Jogja" aria-label="Cari lokasi kota atau kabupaten" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="locSuggest">
-   </div>
-   <div class="loc-suggest" id="locSuggest" role="listbox" aria-label="Saran kota dan kabupaten" hidden></div>
-  </div>
-  <div class="fgroup" id="locList"></div>
-  <button class="loc-toggle" id="locToggle" type="button" hidden></button>
-  <p class="loc-empty" id="locEmpty" hidden>Tidak ada chip yang cocok — kota/kabupaten apa pun bisa dipilih dari saran yang muncul saat mengetik.</p>
-  <button class="loc-btn" id="locBtn" type="button">Gunakan lokasi saya</button>
   <h2>Status</h2>
   <div class="fgroup" id="savedFilter"></div>
   <div class="stack">
@@ -316,7 +300,6 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
      <option value="hybrid">Hybrid</option>
      <option value="onsite">Onsite</option>
     </select>
-    <p class="wt-note">Tipe dibaca dari teks lowongan aslinya; lowongan yang tidak menyebutkan tipe hanya muncul di "Semua tipe".</p>
    </div>
    <div>
     <h2>Gaji Minimum</h2>
@@ -328,9 +311,20 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
      <option value="10000000">Min. Rp 10 jt/bln</option>
      <option value="15000000">Min. Rp 15 jt/bln</option>
     </select>
-    <p class="wt-note">Gaji dibaca dari lowongan aslinya; hanya sebagian lowongan yang mencantumkan gaji — yang tidak mencantumkan hanya muncul di "Semua gaji".</p>
    </div>
   </div>
+  <h2>Lokasi</h2>
+  <div class="loc-search-wrap">
+   <div class="loc-search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+    <input id="locSearch" type="search" placeholder="Cari kota/kabupaten… mis. Bogor, Bali, Jogja" aria-label="Cari lokasi kota atau kabupaten" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="locSuggest">
+   </div>
+   <div class="loc-suggest" id="locSuggest" role="listbox" aria-label="Saran kota dan kabupaten" hidden></div>
+  </div>
+  <div class="fgroup" id="locList"></div>
+  <button class="loc-toggle" id="locToggle" type="button" hidden></button>
+  <p class="loc-empty" id="locEmpty" hidden>Tidak ada chip yang cocok — kota/kabupaten apa pun bisa dipilih dari saran yang muncul saat mengetik.</p>
+  <button class="loc-btn" id="locBtn" type="button">Gunakan lokasi saya</button>
   <button class="reset" id="resetBtn" type="button">Atur ulang semua filter</button>
  </aside>
 
@@ -598,7 +592,6 @@ $('locBtn').onclick=()=>{
 
 fetch('data/jobs.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(d=>{
  JOBS=(d.jobs||[]).map(normalizeJob);
- $('updatedLine').textContent=JOBS.length+' lowongan aktif · Data diperbarui '+fmtDate(d.fetchedAt);
  let savedLoc=null;try{savedLoc=localStorage.getItem('lokerit-loc')}catch(e){}
  if(savedLoc){activeLoc=savedLoc;activeJobLoc=savedLoc==='Semua'?'Semua':mapToJobLoc(savedLoc)}
  buildLoc();buildSaved();
