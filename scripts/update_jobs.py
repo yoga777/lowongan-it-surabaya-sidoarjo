@@ -384,6 +384,78 @@ def fetch_glints(city_slug: str, keyword: str):
         out.append(job)
     return out
 
+# ===== Deskripsi lengkap (untuk modal Detail di situs) =====
+def html_to_text(h: str, cap: int = 2000) -> str:
+    if not h:
+        return ""
+    t = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", h, flags=re.S)
+    t = re.sub(r"<li[^>]*>", "\n• ", t)
+    t = re.sub(r"</(p|li|ul|ol|div|h\d)>", "\n", t)
+    t = re.sub(r"<br\s*/?>", "\n", t)
+    t = re.sub(r"<[^>]+>", " ", t)
+    t = htmlmod.unescape(t)
+    t = re.sub(r"[ \t]+", " ", t)
+    t = re.sub(r"\n\s*\n+", "\n", t).strip()
+    return t[:cap].rstrip()
+
+def desc_jobstreet(url: str) -> str:
+    page = _get(url)
+    i = page.find('data-automation="jobAdDetails"')
+    if i < 0:
+        return ""
+    start = page.find(">", i) + 1
+    seg = page[start:start + 20000]
+    txt = html_to_text(seg)
+    if txt.lower().startswith("job description"):
+        txt = txt[len("Job Description"):].lstrip(" :\n")
+    return txt
+
+def desc_dealls(url: str) -> str:
+    m = re.search(r"dealls\.com/loker/([^~/?]+)", url)
+    if not m:
+        return ""
+    api = "https://api.sejutacita.id/v1/job-portal/job/slug/" + m.group(1)
+    req = urllib.request.Request(api, headers=UA)
+    with urllib.request.urlopen(req, timeout=30) as r:
+        res = json.load(r).get("data", {}).get("result", {})
+    parts = []
+    if res.get("description"):
+        parts.append(html_to_text(res["description"], 1200))
+    if res.get("responsibilities"):
+        parts.append("Tanggung Jawab:\n" + html_to_text(res["responsibilities"], 1200))
+    if res.get("requirements"):
+        parts.append("Kualifikasi:\n" + html_to_text(res["requirements"], 1200))
+    if res.get("perks"):
+        parts.append("Benefit:\n" + html_to_text(res["perks"], 600))
+    return "\n\n".join(p for p in parts if p)[:2400]
+
+def desc_glints(url: str) -> str:
+    page = _get(url)
+    m = re.search(r'"description":"((?:\\.|[^"\\])*)"', page)
+    if not m:
+        return ""
+    try:
+        raw = json.loads('"' + m.group(1) + '"')
+    except ValueError:
+        return ""
+    return html_to_text(raw)
+
+def enrich_descriptions(final: list):
+    """Isi field 'description' untuk lowongan final terpilih."""
+    for job in final:
+        try:
+            src = job.get("source_name")
+            if src == "Jobstreet":
+                job["description"] = desc_jobstreet(job["url"])
+            elif src == "Dealls":
+                job["description"] = desc_dealls(job["url"])
+            elif src == "Glints":
+                job["description"] = desc_glints(job["url"])
+        except Exception as e:
+            print(f"WARN: deskripsi gagal {job.get('source_name')}: {e}", file=sys.stderr)
+            job["description"] = ""
+        time.sleep(0.15)
+
 # Pola URL lowongan INDIVIDUAL (detail) untuk sumber pelengkap pencarian.
 POSTING_RES = [
     r"glints\.com/id/opportunities/jobs/",
@@ -605,6 +677,7 @@ def main() -> int:
     if len(final) < 5:
         print(f"Hasil baru cuma {len(final)} (<5) — file lama dipertahankan.")
         return 0
+    enrich_descriptions(final)
     data = {"fetchedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"), "jobs": final}
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"OK: {len(final)} lowongan ditulis ke {OUT}")

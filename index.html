@@ -175,6 +175,18 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .save-btn svg,.apply svg,.meta svg{display:block;flex:none}
 .save-btn:hover{border-color:var(--brand);color:var(--brand)}
 .save-btn[aria-pressed="true"]{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
+.detail-btn{color:var(--brand);border-color:var(--line)}
+.dmodal{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(10,18,38,.55);padding:0}
+.dmodal.open{display:flex}
+.dpanel{background:var(--surface);width:100%;max-width:680px;max-height:88vh;overflow:auto;border-radius:16px 16px 0 0;padding:22px 22px 18px;box-shadow:0 -12px 40px rgba(10,18,38,.25)}
+@media(min-width:640px){.dmodal{align-items:center;padding:20px}.dpanel{border-radius:16px}}
+.dpanel h2{font-size:19px;line-height:1.35;margin:0 36px 4px 0}
+.dcompany{color:var(--muted);font-size:14px;margin-bottom:12px}
+.ddesc{white-space:pre-wrap;font-size:14px;line-height:1.65;color:var(--text);margin:14px 0 4px;overflow-wrap:anywhere}
+.ddesc-empty{color:var(--muted)}
+.dclose{position:sticky;top:0;float:right;width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-size:17px;line-height:1;cursor:pointer}
+.dfoot{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.dfoot .apply{min-height:40px}
 .apply{margin-top:auto;display:inline-flex;align-items:center;gap:6px;background:var(--action);color:var(--on-action);font-weight:800;font-size:14px;line-height:1;text-decoration:none;border-radius:10px;padding:9px 16px;min-height:40px;box-shadow:0 8px 18px -10px oklch(0.24 0.03 255 / .55);transition:background-color .16s ease-out,transform .16s ease-out}
 .apply:hover{background:var(--action-deep)}
 .apply:active{transform:scale(.98)}
@@ -380,7 +392,7 @@ function normalizeJob(j){
  const url=String(j.url||j.sourceUrl||j.link||'').trim();
  const source=String(j.source_name||j.sourceName||'').trim();
  const wt=['remote','hybrid','onsite'].includes(j.work_type)?j.work_type:'';
- const salMin=Number(j.salary_min);return {title:String(j.title||'Lowongan IT').trim(),company:String(j.company||'').trim(),location:String(j.location||'Surabaya').trim(),category:String(j.category||'Lainnya').trim(),url:/^https?:\/\//i.test(url)?url:'',source_name:source,posted:String(j.posted||'').trim(),summary:String(j.summary||'').trim(),work_type:wt,salary:String(j.salary||'').trim(),salary_min:Number.isFinite(salMin)&&salMin>0?salMin:0};
+ const salMin=Number(j.salary_min);return {title:String(j.title||'Lowongan IT').trim(),company:String(j.company||'').trim(),location:String(j.location||'Surabaya').trim(),category:String(j.category||'Lainnya').trim(),url:/^https?:\/\//i.test(url)?url:'',source_name:source,posted:String(j.posted||'').trim(),summary:String(j.summary||'').trim(),work_type:wt,salary:String(j.salary||'').trim(),salary_min:Number.isFinite(salMin)&&salMin>0?salMin:0,description:String(j.description||'').trim()};
 }
 function fmtDate(iso){if(!iso)return'';const d=new Date(iso);return d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})+', '+d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+' WIB'}
 
@@ -456,16 +468,38 @@ function render(){
   +(j.summary?'<p class="summary">'+esc(j.summary)+'</p>':'')
   +'<div class="tags"><span class="tag tag-cat" style="--tc:'+cc[0]+';--tb:'+cc[1]+'">'+esc(j.category)+'</span>'+(j.work_type?'<span class="tag tag-wt">'+WT_LABEL[j.work_type]+'</span>':'')+'</div></div></div>'
   +'<div class="job-foot"><button type="button" class="save-btn" data-key="'+esc(key)+'" aria-pressed="'+saved+'" aria-label="'+(saved?'Hapus dari tersimpan: ':'Simpan lowongan: ')+esc(j.title)+'">'+icoBmk(saved)+(saved?'Tersimpan':'Simpan')+'</button>'
+  +'<button type="button" class="save-btn detail-btn" data-key="'+esc(key)+'">Detail</button>'
   +applyHtml+'</div></article>'
  }).join('');
- panel.querySelectorAll('.save-btn').forEach(b=>b.onclick=()=>{
+ panel.querySelectorAll('.save-btn:not(.detail-btn)').forEach(b=>b.onclick=()=>{
   const k=b.dataset.key;
   if(SAVED.has(k))SAVED.delete(k);else SAVED.add(k);
   try{localStorage.setItem('lokerit-saved',JSON.stringify([...SAVED]))}catch(e){}
   buildSaved();render();
  });
+ panel.querySelectorAll('.detail-btn').forEach(b=>b.onclick=()=>openDetail(b.dataset.key));
  renderPager(rows.length,totalPages);
 }
+function openDetail(key){
+ const j=JOBS.find(x=>jobKey(x)===key);if(!j)return;
+ $('dTitle').textContent=j.title;
+ $('dCompany').textContent=j.company||(j.source_name?'Via '+j.source_name:'Perusahaan tidak dicantumkan');
+ $('dMeta').innerHTML='<span>'+icoPin+esc(j.location)+'</span>'+(j.salary?'<span>'+icoMoney+esc(j.salary)+'</span>':'')+(j.posted?'<span>'+icoClock+'Diposting '+esc(j.posted)+'</span>':'')+(j.source_name?'<span>Sumber: '+esc(j.source_name)+'</span>':'');
+ const cc=CAT_COLORS[j.category]||CAT_COLORS['Lainnya'];
+ $('dTags').innerHTML='<span class="tag tag-cat" style="--tc:'+cc[0]+';--tb:'+cc[1]+'">'+esc(j.category)+'</span>'+(j.work_type?'<span class="tag tag-wt">'+WT_LABEL[j.work_type]+'</span>':'');
+ const d=$('dDesc');
+ if(j.description){d.textContent=j.description;d.classList.remove('ddesc-empty')}
+ else if(j.summary){d.textContent=j.summary;d.classList.remove('ddesc-empty')}
+ else{d.textContent='Deskripsi lengkap belum tersedia untuk lowongan ini. Tekan Lamar untuk melihat detailnya di situs sumber.';d.classList.add('ddesc-empty')}
+ $('dApply').innerHTML=j.url?'<a class="apply" href="'+esc(j.url)+'" target="_blank" rel="noopener">Lamar Sekarang <svg class="arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>':'';
+ const m=$('detailModal');m.hidden=false;m.classList.add('open');document.body.style.overflow='hidden';$('dClose').focus();
+}
+function closeDetail(){const m=$('detailModal');m.classList.remove('open');m.hidden=true;document.body.style.overflow=''}
+document.addEventListener('DOMContentLoaded',()=>{
+ $('dClose').onclick=closeDetail;$('dTutup').onclick=closeDetail;
+ $('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal')closeDetail()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('detailModal').classList.contains('open'))closeDetail()});
+});
 function renderPager(total,totalPages){
  const pg=$('pager');
  if(totalPages<=1){pg.hidden=true;pg.innerHTML='';return}
@@ -635,5 +669,19 @@ toTop.onclick=()=>scrollTo({top:0,behavior:'smooth'});
  sync();
 })();
 </script>
+<div class="dmodal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="dTitle" hidden>
+ <div class="dpanel">
+  <button type="button" class="dclose" id="dClose" aria-label="Tutup detail">✕</button>
+  <h2 id="dTitle"></h2>
+  <div class="dcompany" id="dCompany"></div>
+  <div class="meta" id="dMeta"></div>
+  <div class="tags" id="dTags" style="margin-top:10px"></div>
+  <div class="ddesc" id="dDesc"></div>
+  <div class="dfoot">
+   <button type="button" class="save-btn" id="dTutup">Tutup</button>
+   <span id="dApply"></span>
+  </div>
+ </div>
+</div>
 </body>
 </html>
