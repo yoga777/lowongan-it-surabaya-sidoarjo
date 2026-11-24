@@ -123,6 +123,11 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .loc-search input::placeholder{color:var(--muted)}
 .loc-empty{margin:2px 0 4px;font-size:13.5px;color:var(--muted)}
 .loc-empty[hidden]{display:none}
+.fbtn.extra{display:none}
+.loc-toggle{margin-top:8px;width:100%;display:inline-flex;align-items:center;justify-content:center;gap:7px;font:inherit;font-size:14px;font-weight:700;color:var(--brand);background:transparent;border:1px dashed var(--line);border-radius:10px;padding:9px;cursor:pointer;min-height:40px}
+.loc-toggle:hover{border-color:var(--brand)}
+.loc-toggle svg{transition:transform .2s ease}
+.loc-toggle.open svg{transform:rotate(180deg)}
 .loc-btn{margin-top:12px;width:100%;font:inherit;font-size:14.5px;font-weight:700;color:var(--brand);background:var(--brand-soft);border:1px solid var(--line);border-radius:10px;padding:10px;cursor:pointer;min-height:44px}
 .loc-btn:hover{border-color:var(--brand)}
 .loc-note{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 14px;font-size:14px;color:var(--muted);background:var(--brand-soft);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
@@ -289,6 +294,7 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
    <div class="loc-suggest" id="locSuggest" role="listbox" aria-label="Saran kota dan kabupaten" hidden></div>
   </div>
   <div class="fgroup" id="locList"></div>
+  <button class="loc-toggle" id="locToggle" type="button" hidden></button>
   <p class="loc-empty" id="locEmpty" hidden>Tidak ada chip yang cocok — kota/kabupaten apa pun bisa dipilih dari saran yang muncul saat mengetik.</p>
   <button class="loc-btn" id="locBtn" type="button">Gunakan lokasi saya</button>
   <h2>Status</h2>
@@ -311,6 +317,18 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
      <option value="onsite">Onsite</option>
     </select>
     <p class="wt-note">Tipe dibaca dari teks lowongan aslinya; lowongan yang tidak menyebutkan tipe hanya muncul di "Semua tipe".</p>
+   </div>
+   <div>
+    <h2>Gaji Minimum</h2>
+    <select id="salSel" aria-label="Filter gaji minimum">
+     <option value="">Semua gaji</option>
+     <option value="3000000">Min. Rp 3 jt/bln</option>
+     <option value="5000000">Min. Rp 5 jt/bln</option>
+     <option value="8000000">Min. Rp 8 jt/bln</option>
+     <option value="10000000">Min. Rp 10 jt/bln</option>
+     <option value="15000000">Min. Rp 15 jt/bln</option>
+    </select>
+    <p class="wt-note">Gaji dibaca dari lowongan aslinya; hanya sebagian lowongan yang mencantumkan gaji — yang tidak mencantumkan hanya muncul di "Semua gaji".</p>
    </div>
   </div>
   <button class="reset" id="resetBtn" type="button">Atur ulang semua filter</button>
@@ -350,7 +368,7 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
 
 <script>
 const $=id=>document.getElementById(id);
-const q=$('q'),catSel=$('catSel'),srcSel=$('srcSel'),wtSel=$('wtSel'),sortSel=$('sortSel'),panel=$('jobPanel'),locList=$('locList'),savedBox=$('savedFilter');
+const q=$('q'),catSel=$('catSel'),srcSel=$('srcSel'),wtSel=$('wtSel'),salSel=$('salSel'),sortSel=$('sortSel'),panel=$('jobPanel'),locList=$('locList'),savedBox=$('savedFilter');
 const WT_LABEL={remote:'Remote',hybrid:'Hybrid',onsite:'Onsite'};
 let JOBS=[],activeLoc='Semua',activeJobLoc='Semua',onlySaved=false;
 const PER_PAGE=10;let page=1,lastSig='';
@@ -359,6 +377,7 @@ const AV_COLORS=['oklch(0.52 0.13 162)','oklch(0.55 0.14 255)','oklch(0.58 0.15 
 const CAT_COLORS={'Programming':['oklch(0.47 0.15 256)','oklch(0.935 0.032 255)'],'Fullstack':['oklch(0.47 0.15 256)','oklch(0.935 0.032 255)'],'Backend':['oklch(0.48 0.11 255)','oklch(0.93 0.035 255)'],'Frontend':['oklch(0.52 0.13 350)','oklch(0.95 0.03 350)'],'Mobile':['oklch(0.52 0.13 350)','oklch(0.95 0.03 350)'],'IT Support & Infrastruktur':['oklch(0.48 0.11 255)','oklch(0.93 0.035 255)'],'IT Support':['oklch(0.48 0.11 255)','oklch(0.93 0.035 255)'],'Data & QA':['oklch(0.50 0.12 305)','oklch(0.94 0.03 305)'],'Data':['oklch(0.50 0.12 305)','oklch(0.94 0.03 305)'],'QA':['oklch(0.50 0.12 305)','oklch(0.94 0.03 305)'],'Design & Product':['oklch(0.52 0.13 350)','oklch(0.95 0.03 350)'],'ERP & Sistem Bisnis':['oklch(0.50 0.11 85)','oklch(0.94 0.04 85)'],'DevOps & Network':['oklch(0.50 0.11 85)','oklch(0.94 0.04 85)'],'Teknisi & Engineering':['oklch(0.50 0.12 35)','oklch(0.94 0.04 35)'],'IT Lainnya':['oklch(0.50 0.03 200)','oklch(0.93 0.015 200)'],'Lainnya':['oklch(0.50 0.03 200)','oklch(0.93 0.015 200)']};
 const icoPin='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>';
 const icoClock='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+const icoMoney='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg>';
 const icoBmk=f=>'<svg width="14" height="14" viewBox="0 0 24 24" fill="'+(f?'currentColor':'none')+'" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function initials(name){const w=String(name||'?').replace(/^(PT|CV|UD)\.?\s+/i,'').trim().split(/\s+/);return ((w[0]||'?')[0]+((w[1]||'')[0]||'')).toUpperCase()}
@@ -368,12 +387,13 @@ function normalizeJob(j){
  const url=String(j.url||j.sourceUrl||j.link||'').trim();
  const source=String(j.source_name||j.sourceName||'').trim();
  const wt=['remote','hybrid','onsite'].includes(j.work_type)?j.work_type:'';
- return {title:String(j.title||'Lowongan IT').trim(),company:String(j.company||'').trim(),location:String(j.location||'Surabaya').trim(),category:String(j.category||'Lainnya').trim(),url:/^https?:\/\//i.test(url)?url:'',source_name:source,posted:String(j.posted||'').trim(),summary:String(j.summary||'').trim(),work_type:wt};
+ const salMin=Number(j.salary_min);return {title:String(j.title||'Lowongan IT').trim(),company:String(j.company||'').trim(),location:String(j.location||'Surabaya').trim(),category:String(j.category||'Lainnya').trim(),url:/^https?:\/\//i.test(url)?url:'',source_name:source,posted:String(j.posted||'').trim(),summary:String(j.summary||'').trim(),work_type:wt,salary:String(j.salary||'').trim(),salary_min:Number.isFinite(salMin)&&salMin>0?salMin:0};
 }
 function fmtDate(iso){if(!iso)return'';const d=new Date(iso);return d.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'})+', '+d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+' WIB'}
 
 const LOC_ALIASES={'Denpasar':['bali'],'Yogyakarta':['jogja','yogya','diy'],'Tangerang':['tangsel','tangerang selatan','bsd','bintaro'],'Jakarta':['dki','jakarta selatan','jakarta barat','jakarta timur','jakarta utara','jakarta pusat'],'Surabaya':['sby'],'Bandung':['bdg'],'Balikpapan':['bpp'],'Semarang':['smg'],'Medan':['sumut','sumatera utara'],'Sidoarjo':['sda']};
-let locQuery='';
+let locQuery='';let locExpanded=false;
+const icoChev='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
 function locMatches(name){
  if(!locQuery)return true;
  if(name==='Semua')return true;
@@ -384,7 +404,10 @@ function buildLoc(){
  const counts={};JOBS.forEach(j=>{counts[j.location]=(counts[j.location]||0)+1});
  const locs=['Semua',...Object.keys(counts).sort((a,b)=>counts[b]-counts[a])];
  const shown=locs.filter(locMatches);
- locList.innerHTML=shown.map(l=>'<button type="button" class="fbtn" data-loc="'+esc(l)+'" aria-pressed="'+(l===activeJobLoc)+'"><span>'+esc(l)+'</span><span class="n">'+(l==='Semua'?JOBS.length:counts[l])+'</span></button>').join('');
+ const LIMIT=9,fold=!locExpanded&&!locQuery;
+ locList.innerHTML=shown.map((l,i)=>'<button type="button" class="fbtn'+(fold&&i>=LIMIT&&l!==activeJobLoc?' extra':'')+'" data-loc="'+esc(l)+'" aria-pressed="'+(l===activeJobLoc)+'"><span>'+esc(l)+'</span><span class="n">'+(l==='Semua'?JOBS.length:counts[l])+'</span></button>').join('');
+ const tg=$('locToggle');
+ if(!locQuery&&shown.length>LIMIT){tg.hidden=false;tg.classList.toggle('open',locExpanded);tg.setAttribute('aria-expanded',String(locExpanded));tg.innerHTML=(locExpanded?'Sembunyikan daftar kota':'Lihat semua '+shown.length+' kota')+icoChev}else{tg.hidden=true}
  $('locEmpty').hidden=shown.length>1||!locQuery;
  locList.querySelectorAll('button').forEach(b=>b.onclick=()=>{activeLoc=b.dataset.loc;activeJobLoc=b.dataset.loc;saveLocPref();hideLocNote();buildLoc();render()});
 }
@@ -404,6 +427,7 @@ function render(){
   if(catSel.value&&j.category!==catSel.value)return false;
   if(srcSel.value&&j.source_name!==srcSel.value)return false;
   if(wtSel.value&&j.work_type!==wtSel.value)return false;
+  if(salSel.value&&!(j.salary_min>=+salSel.value))return false;
   if(query&&!(j.title+' '+j.company+' '+j.location+' '+j.category+' '+j.source_name+' '+j.summary).toLowerCase().includes(query))return false;
   return true;
  });
@@ -412,7 +436,7 @@ function render(){
  if(sortSel.value==='location')rows.sort((a,b)=>a.location.localeCompare(b.location,'id'));
  $('resultCount').textContent=rows.length+' dari '+JOBS.length+' lowongan';
  renderLocTag();
- const sig=[activeLoc,activeJobLoc,onlySaved,catSel.value,srcSel.value,wtSel.value,sortSel.value,query].join('|');
+ const sig=[activeLoc,activeJobLoc,onlySaved,catSel.value,srcSel.value,wtSel.value,salSel.value,sortSel.value,query].join('|');
  if(sig!==lastSig){lastSig=sig;page=1}
  const totalPages=Math.max(1,Math.ceil(rows.length/PER_PAGE));
  if(page>totalPages)page=totalPages;
@@ -435,7 +459,7 @@ function render(){
   +'<div class="job-row"><div class="avatar" style="background:'+avColor(j.company||j.title)+'" aria-hidden="true">'+esc(initials(j.company||j.title))+'</div>'
   +'<div class="job-main"><div class="job-top"><div><h3>'+titleHtml+'</h3>'
   +'<div class="company">'+esc(company)+'</div></div></div>'
-  +'<div class="meta"><span>'+icoPin+esc(j.location)+'</span>'+(j.posted?'<span>'+icoClock+'Diposting '+esc(j.posted)+'</span>':'')+(j.source_name?'<span>Sumber: '+esc(j.source_name)+'</span>':'')+'</div>'
+  +'<div class="meta"><span>'+icoPin+esc(j.location)+'</span>'+(j.salary?'<span>'+icoMoney+esc(j.salary)+'</span>':'')+(j.posted?'<span>'+icoClock+'Diposting '+esc(j.posted)+'</span>':'')+(j.source_name?'<span>Sumber: '+esc(j.source_name)+'</span>':'')+'</div>'
   +(j.summary?'<p class="summary">'+esc(j.summary)+'</p>':'')
   +'<div class="tags"><span class="tag tag-cat" style="--tc:'+cc[0]+';--tb:'+cc[1]+'">'+esc(j.category)+'</span>'+(j.work_type?'<span class="tag tag-wt">'+WT_LABEL[j.work_type]+'</span>':'')+'</div></div></div>'
   +'<div class="job-foot"><button type="button" class="save-btn" data-key="'+esc(key)+'" aria-pressed="'+saved+'" aria-label="'+(saved?'Hapus dari tersimpan: ':'Simpan lowongan: ')+esc(j.title)+'">'+icoBmk(saved)+(saved?'Tersimpan':'Simpan')+'</button>'
@@ -472,7 +496,7 @@ function renderPager(total,totalPages){
   document.getElementById('daftar').scrollIntoView({behavior:'smooth'});
  });
 }
-function resetAll(){q.value='';catSel.value='';srcSel.value='';wtSel.value='';sortSel.value='default';activeLoc='Semua';activeJobLoc='Semua';onlySaved=false;locQuery='';const ls=$('locSearch');if(ls)ls.value='';hideSuggest();try{localStorage.removeItem('lokerit-loc')}catch(e){}hideLocNote();buildLoc();buildSaved();render()}
+function resetAll(){q.value='';catSel.value='';srcSel.value='';wtSel.value='';salSel.value='';sortSel.value='default';activeLoc='Semua';activeJobLoc='Semua';onlySaved=false;locQuery='';locExpanded=false;const ls=$('locSearch');if(ls)ls.value='';hideSuggest();try{localStorage.removeItem('lokerit-loc')}catch(e){}hideLocNote();buildLoc();buildSaved();render()}
 
 /* ===== Default filter sesuai lokasi user ===== */
 const CITY_COORDS={'Jakarta':[-6.2088,106.8456],'Tangerang':[-6.1702,106.6403],'Bekasi':[-6.2383,106.9756],'Bogor':[-6.5971,106.806],'Depok':[-6.4025,106.7942],'Bandung':[-6.9175,107.6191],'Cimahi':[-6.8841,107.5239],'Semarang':[-6.9667,110.4167],'Yogyakarta':[-7.7956,110.3695],'Solo':[-7.5755,110.8243],'Surabaya':[-7.2575,112.7521],'Sidoarjo':[-7.4478,112.7183],'Gresik':[-7.1564,112.6555],'Mojokerto':[-7.4706,112.4401],'Malang':[-7.9666,112.6326],'Kediri':[-7.8166,112.0118],'Denpasar':[-8.6705,115.2126],'Medan':[3.5952,98.6722],'Palembang':[-2.9761,104.7754],'Batam':[1.0456,104.0305],'Pekanbaru':[0.5071,101.4478],'Balikpapan':[-1.2379,116.8529],'Samarinda':[-0.4948,117.1436],'Pontianak':[-0.0263,109.3425],'Makassar':[-5.1477,119.4327],'Banjarmasin':[-3.3186,114.5944],'Manado':[1.4748,124.8421]};
@@ -589,7 +613,8 @@ fetch('data/jobs.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HT
 }).catch(()=>{panel.innerHTML='<div class="empty"><strong>Data belum bisa dimuat</strong>Coba muat ulang halaman ini beberapa saat lagi.</div>'});
 
 $('searchForm').addEventListener('submit',e=>{e.preventDefault();render();document.getElementById('daftar').scrollIntoView({behavior:'smooth'})});
-q.addEventListener('input',render);catSel.onchange=render;srcSel.onchange=render;wtSel.onchange=render;sortSel.onchange=render;
+q.addEventListener('input',render);catSel.onchange=render;srcSel.onchange=render;wtSel.onchange=render;salSel.onchange=render;sortSel.onchange=render;
+$('locToggle').onclick=()=>{locExpanded=!locExpanded;buildLoc()};
 $('resetBtn').onclick=resetAll;
 locSearchEl.addEventListener('input',()=>{locQuery=locSearchEl.value.trim().toLowerCase();buildLoc();renderSuggest()});
 locSearchEl.addEventListener('focus',()=>renderSuggest());

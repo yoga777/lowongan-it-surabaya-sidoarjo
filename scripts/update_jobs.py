@@ -168,6 +168,33 @@ SEEK_CITIES = [
     "Samarinda", "Pontianak", "Banjarmasin", "Manado",
 ]
 
+def parse_salary(label: str):
+    """'Rp 5.500.000 – Rp 7.000.000 per month' -> (label bersih, min per bulan).
+    Mengembalikan (None, 0) bila tidak ada angka Rp yang bisa dibaca."""
+    if not label:
+        return None, 0
+    text = re.sub(r"\s+", " ", str(label)).strip()
+    nums = []
+    for raw in re.findall(r"Rp\s*([\d][\d.,]*)", text):
+        try:
+            nums.append(int(re.sub(r"[.,]", "", raw)))
+        except ValueError:
+            pass
+    if not nums:
+        return None, 0
+    low = text.lower()
+    if "year" in low or "annum" in low or "tahun" in low:
+        factor = 1 / 12
+    elif "day" in low or "hari" in low:
+        factor = 22
+    elif "hour" in low or "jam" in low:
+        factor = 160
+    elif "week" in low or "minggu" in low:
+        factor = 4.33
+    else:
+        factor = 1
+    return text, int(min(nums) * factor)
+
 def _arrangement_wt(labels):
     low = " ".join(labels).lower()
     if "jarak jauh" in low or "remote" in low:
@@ -219,6 +246,10 @@ def fetch_jobstreet(city: str):
         wt = _arrangement_wt(labels) or work_type_of(title, teaser)
         if wt:
             job["work_type"] = wt
+        sal_label, sal_min = parse_salary(j.get("salaryLabel") or "")
+        if sal_label:
+            job["salary"] = sal_label
+            job["salary_min"] = sal_min
         job["_date"] = j.get("listingDate") or ""
         out.append(job)
     return out
@@ -383,6 +414,10 @@ def main() -> int:
             wt = work_type_of(title, desc)
             if wt:
                 job["work_type"] = wt
+            sal_label, sal_min = parse_salary(desc)
+            if sal_label:
+                job["salary"] = sal_label
+                job["salary_min"] = sal_min
             postings.append(job)
     # Urutkan Jobstreet terbaru dulu; beri kuota agar pelengkap dari
     # portal lain tetap dapat tempat. Batas per kota menjaga sebaran.
