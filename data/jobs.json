@@ -1,44 +1,292 @@
 {
- "fetchedAt": "2026-11-24T01:40:01.178276Z",
+ "fetchedAt": "2026-11-24T08:59:31.765171Z",
  "jobs": [
   {
-   "title": "FUNCTIONAL ANALYST - ODOO",
-   "company": "Agro Boga Utama",
-   "location": "Jakarta",
+   "title": "IT Supervisor",
+   "company": "Bogasari",
+   "location": "Surabaya",
+   "category": "Lainnya",
+   "url": "https://id.jobstreet.com/id/job/96091810",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96091810",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Provide management and control system for operational and strategic activities",
+   "posted": "8 menit yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "Cybersecurity Forensic Investigator",
+   "company": null,
+   "location": "Bandung",
+   "category": "Lainnya",
+   "url": "https://id.jobstreet.com/id/job/96091528",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96091528",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Cybersecurity",
+   "posted": "18 menit yang lalu",
+   "work_type": "onsite",
+   "salary": "Rp 5.000.000 – Rp 7.500.000 per month",
+   "salary_min": 5000000
+  },
+  {
+   "title": "Senior Backend Developer",
+   "company": null,
+   "location": "Denpasar",
    "category": "Backend",
-   "url": "https://id.jobstreet.com/id/job/96075995",
-   "sourceUrl": "https://id.jobstreet.com/id/job/96075995",
+   "url": "https://id.jobstreet.com/id/job/96091415",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96091415",
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
-   "summary": "As a functional for Odoo",
-   "posted": "9 menit yang lalu",
-   "work_type": "onsite"
+   "summary": "We’re looking for a senior backend developer to lead the architecture on our Laravel platforms. We’ve won the Australian Web Awards Laravel...",
+   "posted": "25 menit yang lalu",
+   "work_type": "hybrid"
   },
   {
-   "title": "IT Business Analyst",
-   "company": "Central Asia Insurance",
-   "location": "Jakarta",
-   "category": "Fullstack",
-   "url": "https://id.jobstreet.com/id/job/96072061",
-   "sourceUrl": "https://id.jobstreet.com/id/job/96072061",
+   "title": "Senior Frontend Developer",
+   "company": null,
+   "location": "Denpasar",
+   "category": "Frontend",
+   "url": "https://id.jobstreet.com/id/job/96091413",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96091413",
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
-   "summary": "Business Requirement Document, Developer, QC aplikasi, handle complain, SQL Language, System Development Life Cycle, SDLC, BPR, Business Analyst, IT",
-   "posted": "47 menit yang lalu",
-   "work_type": "onsite"
+   "summary": "We’re looking for a senior frontend developer to lead the frontend on our flagship headless builds, including Kleenheat Spark, a 2026 Australian...",
+   "posted": "25 menit yang lalu",
+   "work_type": "hybrid"
   },
   {
-   "title": "IT Solutions Architect Supervisor​",
-   "company": "Ancora Indonesia Resources",
+   "title": "Project Manager IT Security",
+   "company": "Spentera",
    "location": "Jakarta",
    "category": "Lainnya",
-   "url": "https://id.jobstreet.com/id/job/96067210",
-   "sourceUrl": "https://id.jobstreet.com/id/job/96067210",
+   "url": "https://id.jobstreet.com/id/job/96091090",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96091090",
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
-   "summary": "Lead IT solutions, drive digitalization, and shape secure, AI-enabled applications across the group.",
-   "posted": "9 jam yang lalu",
+   "summary": "Manages pentest and VAPT projects, coordinating clients and technical teams to ensure timely delivery within the agreed scope.",
+   "posted": "28 menit yang lalu",
+   "work_type": "onsite",
+   "salary": "Rp 10.000.000 – Rp 15.000.000 per month",
+   "salary_min": 10000000
+  },
+  {
+   "title": "Ethical Hacker / Penetration Tester",
+   "company": null,
+   "location": "Bandung",
+   "category": "QA",
+   "url": "https://id.jobstreet.com/id/job/96091087",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96091087",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Hacker & Penetration Tester",
+   "posted": "29 menit yang lalu",
+   "work_type": "onsite",
+   "salary": "Rp 5.000.000 – Rp 7.500.000 per month",
+   "salary_min": 5000000
+  },
+  {
+   "title": "Hardware & Network Support Staff",
+   "company": "Mane Indonesia",
+   "location": "Bekasi",
+   "category": "IT Support",
+   "url": "https://id.jobstreet.com/id/job/96090017",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96090017",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Deliver responsive technical support while maintaining essential IT systems and equipment across the organisation.",
+   "posted": "1 jam yang lalu",
    "work_type": "onsite"
+  },
+  {
+   "title": "TECHNICAL WRITER",
+   "company": "AMK Technology",
+   "location": "Jakarta",
+   "category": "Lainnya",
+   "url": "https://id.jobstreet.com/id/job/96089774",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96089774",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Minimum 2 years of experience as a Technical Writer or in a similar role within the IT industry",
+   "posted": "1 jam yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "Teknisi Jaringan Wifi (Network Engineer) - Kota Samarinda",
+   "company": "Duta Generasi Mandiri",
+   "location": "Samarinda",
+   "category": "DevOps & Network",
+   "url": "https://id.jobstreet.com/id/job/96089613",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96089613",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Teknisi jaringan WIFI Fiber Optik di area Samarinda",
+   "posted": "1 jam yang lalu",
+   "work_type": "onsite",
+   "salary": "Rp 3.900.000 – Rp 4.300.000 per month",
+   "salary_min": 3900000
+  },
+  {
+   "title": "IT System Engineer",
+   "company": "Computrade Technology",
+   "location": "Jakarta",
+   "category": "DevOps & Network",
+   "url": "https://id.jobstreet.com/id/job/96089347",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96089347",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Drive IT infrastructure solutions across implementation, troubleshooting, customer support, and project delivery.",
+   "posted": "1 jam yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "System Administrator (IT)",
+   "company": "PT KLEDO BERHATI NYAMAN",
+   "location": "Yogyakarta",
+   "category": "DevOps & Network",
+   "url": "https://id.jobstreet.com/id/job/96088532",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96088532",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Kelola infrastruktur AWS, Proxmox, deployment aplikasi, CI/CD, dan operasional PHP Laravel.",
+   "posted": "1 jam yang lalu",
+   "work_type": "onsite",
+   "salary": "Rp 4.000.000 – Rp 5.500.000 per month",
+   "salary_min": 4000000
+  },
+  {
+   "title": "IT Executive (Infrastructure / System Analyst)",
+   "company": "Mitra Adiperkasa",
+   "location": "Jakarta",
+   "category": "IT Support",
+   "url": "https://id.jobstreet.com/id/job/96088470",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96088470",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "IT Support will manage end-to-end IT infrastructure and POS systems for both existing stores and new store openings; development support",
+   "posted": "1 jam yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "Server Delivery Technician (DATA CENTER OPERATIONS)",
+   "company": "Rahi Systems",
+   "location": "Bekasi",
+   "category": "Lainnya",
+   "url": "https://id.jobstreet.com/id/job/96085203",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96085203",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "You will be managing server delivery in IDC and handle computer assets and peripherals for a Giant Tech MNC.",
+   "posted": "3 jam yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "Software Quality Assurance",
+   "company": "PT Pandawa Karir Citra",
+   "location": "Jakarta",
+   "category": "QA",
+   "url": "https://id.jobstreet.com/id/job/96084142",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96084142",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Melakukan testing, membuat Test Case, Test Scenario, Test Script, dokumentasi.",
+   "posted": "4 jam yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "IoT Engineer",
+   "company": "PT Digital Apta Media",
+   "location": "Bandung",
+   "category": "Lainnya",
+   "url": "https://id.jobstreet.com/id/job/96083535",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96083535",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Bertanggung jawab dalam melakukan riset, pengembangan, dan pengujian perangkat IoT untuk mendukung kebutuhan proyek dan produk perusahaan.",
+   "posted": "4 jam yang lalu",
+   "work_type": "onsite",
+   "salary": "Rp 4.500.000 – Rp 5.300.000 per month",
+   "salary_min": 4500000
+  },
+  {
+   "title": "IT Product Development Specialist",
+   "company": "B-LOG",
+   "location": "Tangerang",
+   "category": "Lainnya",
+   "url": "https://id.jobstreet.com/id/job/96080742",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96080742",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Bertanggung jawab untuk memastikan kualitas produk IT yang dimiliki perusahaan dapat berjalan efektif sesuai dengan perencanaan produk.",
+   "posted": "4 jam yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "Onsite Engineer / Technician",
+   "company": "Cushman & Wakefield",
+   "location": "Bekasi",
+   "category": "Lainnya",
+   "url": "https://id.jobstreet.com/id/job/96081900",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96081900",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "24/7 data centre operations role. Competitive salary, great team culture, and career growth opportunities await.",
+   "posted": "5 jam yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "AI Engineer",
+   "company": "Daya Solutions Innovations",
+   "location": "Jakarta",
+   "category": "Fullstack",
+   "url": "https://id.jobstreet.com/id/job/96081814",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96081814",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Join Inovasi Daya Solusi  as an AI Engineer!",
+   "posted": "5 jam yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "Software Engineering Lead",
+   "company": "Brilliant Think Center",
+   "location": "Palembang",
+   "category": "Fullstack",
+   "url": "https://id.jobstreet.com/id/job/96079053",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96079053",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Pimpin tim engineering dan bentuk arah teknis perusahaan dan pertumbuhan karir.",
+   "posted": "6 jam yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "HEAD OF ENTERPRISE SYSTEMS & DIGITAL TRANSFORMATION",
+   "company": "PT Tjakrindo Mas",
+   "location": "Gresik",
+   "category": "Lainnya",
+   "url": "https://id.jobstreet.com/id/job/96078775",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96078775",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "PT Tjakrindo Mas is seeking a Head of Enterprise Systems & Digital Transformation to lead a company wide digital transformation in Gresik",
+   "posted": "6 jam yang lalu",
+   "work_type": "onsite"
+  },
+  {
+   "title": "QA Engineer (Tester) onsite at Yogya",
+   "company": "Amalura Multi Dimensi",
+   "location": "Yogyakarta",
+   "category": "QA",
+   "url": "https://id.jobstreet.com/id/job/96076316",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96076316",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Drive end-to-end software quality through manual, automated and system integration testing.",
+   "posted": "7 jam yang lalu",
+   "work_type": "onsite",
+   "salary": "Rp 6.000.000 – Rp 8.500.000 per month",
+   "salary_min": 6000000
   },
   {
    "title": "Analytics Engineer (Pekanbaru)",
@@ -50,7 +298,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Develop and maintain automated ETL/ELT pipelines and orchestrated workflows to integrate data from business systems. Design, build, and optimize...",
-   "posted": "12 jam yang lalu",
+   "posted": "20 jam yang lalu",
    "work_type": "onsite"
   },
   {
@@ -63,7 +311,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Menyusun konsep solusi, spesifikasi teknis dan estimasi awal bersama tim Engineering",
-   "posted": "15 jam yang lalu",
+   "posted": "22 jam yang lalu",
    "work_type": "hybrid"
   },
   {
@@ -76,7 +324,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Support clients and troubleshoot applications while building strong technical solutions and relationships.",
-   "posted": "15 jam yang lalu",
+   "posted": "23 jam yang lalu",
    "work_type": "onsite",
    "salary": "Rp 2.500.000 – Rp 3.500.000 per month",
    "salary_min": 2500000
@@ -91,7 +339,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "S1 Teknik Informatika (IT), Pengalaman Minimal 3 Tahun diposisi yang sama, Memiliki pengalaman dalam membuat program khususnya aplikasi mobile dan",
-   "posted": "16 jam yang lalu",
+   "posted": "23 jam yang lalu",
    "work_type": "onsite"
   },
   {
@@ -104,7 +352,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Membuka lowongan Software Project Administrator penempatan di Malang. Kirimkan CV & portofolio Anda pada tim kami.",
-   "posted": "16 jam yang lalu",
+   "posted": "23 jam yang lalu",
    "work_type": "hybrid",
    "salary": "Rp 3.000.000 – Rp 3.700.000 per month",
    "salary_min": 3000000
@@ -119,7 +367,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "We're looking for a Project Lead to oversee project execution, coordinate cross-functional teams, and ensure projects are delivered on time.",
-   "posted": "16 jam yang lalu",
+   "posted": "23 jam yang lalu",
    "work_type": "onsite",
    "salary": "Rp 3.500.000 – Rp 5.000.000 per month",
    "salary_min": 3500000
@@ -134,7 +382,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Where your ideas actually ship! Bridge clients & devs in HRIS/Payroll, grow with modern tech, and earn extra incentives for every win.",
-   "posted": "16 jam yang lalu",
+   "posted": "23 jam yang lalu",
    "work_type": "onsite"
   },
   {
@@ -147,7 +395,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Membantu pengembangan web (frontend & backend), API, database, UI responsif, testing, debugging, integrasi fitur, dan dokumentasi sistem.",
-   "posted": "16 jam yang lalu",
+   "posted": "23 jam yang lalu",
    "work_type": "onsite",
    "salary": "Rp2.000.000 – Rp2.500.000 per month",
    "salary_min": 2000000
@@ -162,7 +410,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Troubleshoot applications, improve system performance, and ensure IT security compliance.",
-   "posted": "17 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -175,7 +423,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Drive technology training sales by turning corporate learning needs into lasting client partnerships.",
-   "posted": "17 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -188,23 +436,10 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Memberikan dukungan teknis, troubleshooting, instalasi, konfigurasi, dan maintenance perangkat IT end user.",
-   "posted": "17 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 4.500.000 – Rp 5.800.000 per month",
    "salary_min": 4500000
-  },
-  {
-   "title": "IT Project Management",
-   "company": "Berca Hardayaperkasa",
-   "location": "Jakarta",
-   "category": "DevOps & Network",
-   "url": "https://id.jobstreet.com/id/job/95748416",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95748416",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Mengelola project implementasi IT Infrastructure, End User Devices, Server, Storage, dan Network.",
-   "posted": "17 jam yang lalu",
-   "work_type": "onsite"
   },
   {
    "title": "Staff Data Analyst",
@@ -216,7 +451,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "-",
-   "posted": "17 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -229,7 +464,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Bertanggung jawab atas dukungan IT, pemeliharaan website, serta pembuatan desain grafis untuk kebutuhan promosi dan branding perusahaan.",
-   "posted": "17 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 4.000.000 – Rp 4.500.000 per month",
    "salary_min": 4000000
@@ -244,7 +479,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Dukungan teknis profesional dengan peluang pengembangan karier dan gaji kompetitif di perusahaan modern.",
-   "posted": "17 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 1.000.000 – Rp 1.500.000 per month",
    "salary_min": 1000000
@@ -259,20 +494,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "We are looking for candidates who are visionary and have a strong character to lead the IT department.",
-   "posted": "18 jam yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "IT  dan Web Development",
-   "company": "Sepuluh Sumber Anugrah",
-   "location": "Tangerang",
-   "category": "Fullstack",
-   "url": "https://id.jobstreet.com/id/job/96057830",
-   "sourceUrl": "https://id.jobstreet.com/id/job/96057830",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Fleksibel paruh waktu, gaji kompetitif, dan kembangkan skill teknis dengan proyek challenging",
-   "posted": "18 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -285,7 +507,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Lead critical NOC or SOC operations, strengthen reliability and security, and build high-performing teams.",
-   "posted": "18 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 10.000.000 – Rp 15.000.000 per month",
    "salary_min": 10000000
@@ -300,7 +522,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Kembangkan aplikasi web dan mobile inovatif dengan teknologi modern untuk mendukung kebutuhan perusahaan.",
-   "posted": "19 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -313,7 +535,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Mengelola sistem dan infrastruktur IT perusahaan, memastikan ERP dan IT Inventory berjalan optimal, serta memberikan dukungan dan pendampingan IT",
-   "posted": "20 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -326,7 +548,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Mengelola infrastruktur jaringan dan keamanan untuk melindungi konektivitas serta mendeteksi ancaman siber.",
-   "posted": "20 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -339,7 +561,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Bertanggung jawab merancang, mengembangkan, dan mengelola program kepemimpinan berbasis alam dan experiential learning untuk peserta didik.",
-   "posted": "21 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 2.000.000 – Rp 2.500.000 per month",
    "salary_min": 2000000
@@ -354,7 +576,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Bertanggung jawab mengembangkan, memelihara, dan melakukan troubleshooting sistem ERP, termasuk integrasi database serta penyesuaian fitur.",
-   "posted": "21 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -367,7 +589,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Kami mencari IT Project Manager Junior yang memiliki latar belakang teknologi informasi serta pemahaman terhadap proses operasional pergudangan",
-   "posted": "21 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -380,7 +602,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "S1 Teknik Informatika (IT), Pengalaman Minimal 3 Tahun diposisi yang sama, Memiliki pengalaman dalam membuat program khususnya aplikasi mobile dan",
-   "posted": "21 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -393,7 +615,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Memberikan dukungan teknis, melakukan troubleshooting infrastruktur IT, serta monitoring dan menjaga keamanan jaringan, server, dan sistem perusahaan.",
-   "posted": "22 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -406,7 +628,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Ensure quality excellence in asset management industry. Supportive work environment for personal and professional growth.",
-   "posted": "22 jam yang lalu",
+   "posted": "1 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -419,23 +641,8 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Technical support client.",
-   "posted": "23 jam yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Software Developer",
-   "company": "Mindo Small Business Solutions",
-   "location": "Yogyakarta",
-   "category": "Fullstack",
-   "url": "https://id.jobstreet.com/id/job/96045951",
-   "sourceUrl": "https://id.jobstreet.com/id/job/96045951",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Mindo Solutions is looking for a detail-oriented and proactive Developer to join our growing team!",
    "posted": "1 hari yang lalu",
-   "work_type": "onsite",
-   "salary": "Rp 5.500.000 – Rp 6.000.000 per month",
-   "salary_min": 5500000
+   "work_type": "onsite"
   },
   {
    "title": "Programmer Manager",
@@ -473,7 +680,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Manage SAP FICO operations, system improvements, troubleshooting, and team supervision to ensure effective business process integration.",
-   "posted": "2 hari yang lalu",
+   "posted": "3 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -486,7 +693,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Kembangkan aplikasi .NET dan SQL end-to-end sambil mendorong kualitas sistem dan kolaborasi teknis.",
-   "posted": "2 hari yang lalu",
+   "posted": "3 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -499,7 +706,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Build and scale web and Android products across frontend, backend, databases, and mobile experiences.",
-   "posted": "2 hari yang lalu",
+   "posted": "3 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -512,25 +719,10 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Menjaga infrastruktur, keamanan, dukungan IT, dan sistem ERP untuk mendukung operasional perusahaan.",
-   "posted": "2 hari yang lalu",
+   "posted": "3 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 6.000.000 – Rp 7.200.000 per month",
    "salary_min": 6000000
-  },
-  {
-   "title": "Full stack web developer",
-   "company": "PT Indo Property Hub",
-   "location": "Denpasar",
-   "category": "Fullstack",
-   "url": "https://id.jobstreet.com/id/job/96033420",
-   "sourceUrl": "https://id.jobstreet.com/id/job/96033420",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Build and improve high-impact WordPress and full stack web experiences for IPH and growing businesses.",
-   "posted": "3 hari yang lalu",
-   "work_type": "onsite",
-   "salary": "Rp 8.000.000 – Rp 10.000.000 per month",
-   "salary_min": 8000000
   },
   {
    "title": "QA Engineer",
@@ -646,7 +838,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Evaluasi teknis dan pengadaan untuk memastikan kesesuaian spesifikasi, material, metode kerja, dan penawaran proyek.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -659,7 +851,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Menjaga stabilitas dan kualitas jaringan pelanggan sebagai Teknisi NOC di Pekanbaru.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 3.500.000 – Rp 4.500.000 per month",
    "salary_min": 3500000
@@ -674,7 +866,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Memastikan infrastruktur jaringan di Pangkalan Kerinci tetap andal, aman, dan optimal.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 4.000.000 – Rp 5.000.000 per month",
    "salary_min": 4000000
@@ -689,7 +881,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Bertanggung jawab melakukan penyelesaian masalah dan meminimalisir agar masalah tidak terulang di level 1 (L1) sebagai first line support.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 4.200.000 – Rp 4.800.000 per month",
    "salary_min": 4200000
@@ -704,23 +896,10 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Lead customer support at Appliance.io. Coach employees, improve service quality, and support international customers. On-site in Bandung.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 9.000.000 – Rp 13.000.000 per month",
    "salary_min": 9000000
-  },
-  {
-   "title": "IT Supervisor",
-   "company": "Reins Marindo Indonesia",
-   "location": "Jakarta",
-   "category": "Lainnya",
-   "url": "https://id.jobstreet.com/id/job/96020558",
-   "sourceUrl": "https://id.jobstreet.com/id/job/96020558",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Lead the IT Application team, oversee application support, troubleshooting, and system improvements.",
-   "posted": "3 hari yang lalu",
-   "work_type": "onsite"
   },
   {
    "title": "IT Project Specialist",
@@ -732,7 +911,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "This role will act as a key liaison between management, business units, internal IT teams, and external vendors to ensure projects",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -745,7 +924,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Functional Consultant responsible for ERP system implementation, configuration, and client support.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -758,7 +937,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Functional Consultant responsible for ERP system implementation, configuration, and client support.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -771,23 +950,10 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Mencari dan mengidentifikasi peluang bisnis baru (leads) di segmen manufaktur/B2B.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 6.000.000 – Rp 7.000.000 per month",
    "salary_min": 6000000
-  },
-  {
-   "title": "IT Technical Support",
-   "company": null,
-   "location": "Jakarta",
-   "category": "IT Support",
-   "url": "https://id.jobstreet.com/id/job/96016574",
-   "sourceUrl": "https://id.jobstreet.com/id/job/96016574",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Mendukung perencanaan, implementasi, koordinasi, serta pengawasan berbagai kebutuhan IT yang terintegrasi dengan pembangunan gedung dan operasional RS",
-   "posted": "3 hari yang lalu",
-   "work_type": "onsite"
   },
   {
    "title": "ERP TECHNICAL CONSULTANT",
@@ -799,7 +965,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "ERP Implementer, System Analysis, User Training & Support Programmer, Developer",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -812,7 +978,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Mengelola IT support, jaringan, perangkat, serta pengembangan dan pemeliharaan aplikasi untuk mendukung operasional dan digitalisasi perusahaan.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -825,7 +991,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Menjaga performa aset IT melalui maintenance, troubleshooting, dan dukungan teknis untuk kelancaran operasional.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 4.600.000 – Rp 5.500.000 per month",
    "salary_min": 4600000
@@ -840,7 +1006,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Mendukung operasional IT perusahaan melalui penanganan hardware, software, jaringan, serta pengembangan dan pemeliharaan sistem informasi perusahaan.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -853,7 +1019,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Project Cost Engineer is responsible for the creation, development and manage of project costs or expenditure & evaluate against plan and actual cost.",
-   "posted": "3 hari yang lalu",
+   "posted": "4 hari yang lalu",
    "work_type": "hybrid"
   },
   {
@@ -872,19 +1038,6 @@
    "salary_min": 5000000
   },
   {
-   "title": "AI & Automation Specialist",
-   "company": "In Fashion",
-   "location": "Denpasar",
-   "category": "Fullstack",
-   "url": "https://id.jobstreet.com/id/job/95783032",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95783032",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Helps different dept work faster by using AI tools and simple automation. You will learn how each team works and help build/test basic automations.",
-   "posted": "4 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
    "title": "IT Staff",
    "company": "PT. Hiron Indonesia Industry",
    "location": "Semarang",
@@ -894,7 +1047,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Bergabung dengan pemimpin industri, tunjangan kompetitif, kesempatan pengembangan karir yang luas - lamar sekarang!",
-   "posted": "4 hari yang lalu",
+   "posted": "5 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -907,7 +1060,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Memimpin dan mengelola transformasi bisnis perusahaan melalui pemanfaatan Artificial Intelligence (AI), digitalisasi, dan automation.",
-   "posted": "4 hari yang lalu",
+   "posted": "5 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 7.000.000 – Rp 7.500.000 per month",
    "salary_min": 7000000
@@ -922,7 +1075,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Monitor security threats, assess vulnerabilities, respond to incidents, maintain security controls, and strengthen company systems and data protection",
-   "posted": "4 hari yang lalu",
+   "posted": "5 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -935,7 +1088,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "memiliki kemampuan mengerjakan kedua sisi pengembangan website, yaitu Front-End dan Back-End.",
-   "posted": "4 hari yang lalu",
+   "posted": "5 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 4.000.000 – Rp 4.500.000 per month",
    "salary_min": 4000000
@@ -950,7 +1103,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "We are looking for an experienced IT Support Specialist to manage the full office IT setup, and handle daily IT support.",
-   "posted": "4 hari yang lalu",
+   "posted": "5 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -963,7 +1116,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Mengelola dan menganalisis sistem power AC/DC serta memastikan keandalan operasional jaringan.",
-   "posted": "4 hari yang lalu",
+   "posted": "5 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 5.500.000 – Rp 7.000.000 per month",
    "salary_min": 5500000
@@ -978,7 +1131,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Bergabunglah sebagai Teknisi Onsite bersama tim kami yang solid dan terus berkembang.",
-   "posted": "4 hari yang lalu",
+   "posted": "5 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 2.500.000 – Rp 3.000.000 per month",
    "salary_min": 2500000
@@ -993,7 +1146,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Improve and digitalize business processes across operations with ERP and digital solutions.",
-   "posted": "4 hari yang lalu",
+   "posted": "5 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 7.500.000 – Rp 10.500.000 per month",
    "salary_min": 7500000
@@ -1008,7 +1161,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Jasuindo adalah perusahaan dengan pertumbuhan paling cepat di Asia yang menawarkan solusi identitas yang dibuat secara khusus untuk pemerintah.",
-   "posted": "4 hari yang lalu",
+   "posted": "5 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1021,7 +1174,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "PT Happy Dining Solution membuka posisi AI Support",
-   "posted": "4 hari yang lalu",
+   "posted": "5 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 3.500.000 – Rp 4.000.000 per month",
    "salary_min": 3500000
@@ -1077,7 +1230,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "At PT Elang Strategi Adidaya you'll have the opportunity to work on enterprise ICT Infrastructure projects across various industries",
-   "posted": "5 hari yang lalu",
+   "posted": "6 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 5.500.000 – Rp 7.000.000 per month",
    "salary_min": 5500000
@@ -1092,7 +1245,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Terlibat dalam proses pengembangan develop sistem HRIS",
-   "posted": "5 hari yang lalu",
+   "posted": "6 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 500.000 – Rp 750.000 per month",
    "salary_min": 500000
@@ -1107,7 +1260,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "-",
-   "posted": "5 hari yang lalu",
+   "posted": "6 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1174,7 +1327,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "involving the application of SAP/MES/WMS systems",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1187,7 +1340,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "We're hiring a Lead AI Product Manager to take technical and product ownership of the AI systems at the heart of Kulu. This is a hands-on,...",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1200,7 +1353,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Teknisi jaringan WIFI fiber optik untuk area kota Batam",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 5.350.000 – Rp 5.600.000 per month",
    "salary_min": 5350000
@@ -1215,7 +1368,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Drive IT solutions sales, build lasting client relationships, and exceed targets through consultative business development.",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 12.000.000 – Rp 18.000.000 per month",
    "salary_min": 12000000
@@ -1230,7 +1383,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Mengelola operasional, keamanan, dan pengembangan IT untuk mendukung kelancaran bisnis perusahaan.",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 4.500.000 – Rp 6.000.000 per month",
    "salary_min": 4500000
@@ -1245,7 +1398,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Memimpin transformasi digital, keamanan siber, dan inovasi IT di seluruh grup perusahaan.",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1258,7 +1411,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Looking for experienced IT (infrastructure) who understand with IT Infrastructure, networks, servers and storage systems to be placed in Cikarang",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1271,7 +1424,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "IT Staff bertanggung jawab memastikan infrastruktur dan perangkat teknologi informasi perusahaan berfungsi dengan baik dan optimal.",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1284,7 +1437,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Mengelola & memelihara Infrastruktur IT perusahaan, termasuk Google workspace, mikrotik",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1297,10 +1450,23 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "customer service, and internal stakeholders to ensure smooth project execution, effective communication, and continuous process improvement.",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "hybrid",
    "salary": "Rp 4.500.000 – Rp 6.000.000 per month",
    "salary_min": 4500000
+  },
+  {
+   "title": "IT Intern",
+   "company": "Gotion Green Energy Solutions Indonesia",
+   "location": "Bogor",
+   "category": "Data",
+   "url": "https://id.jobstreet.com/id/job/95939444",
+   "sourceUrl": "https://id.jobstreet.com/id/job/95939444",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Gain hands-on IT experience by supporting users, infrastructure, equipment, and digitalisation initiatives.",
+   "posted": "7 hari yang lalu",
+   "work_type": "onsite"
   },
   {
    "title": "Junior Programmer",
@@ -1312,7 +1478,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Kami sedang membuka kesempatan bagi talenta muda yang ingin mengembangkan karier sebagai Junior Programmer (Angular Frontend...",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1342,21 +1508,6 @@
    "work_type": "onsite"
   },
   {
-   "title": "Software Developer Coordinator",
-   "company": "PT Sahabat Laut Lestari",
-   "location": "Denpasar",
-   "category": "Fullstack",
-   "url": "https://id.jobstreet.com/id/job/95921509",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95921509",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Join our growing team of passionate and talented individuals. We value innovation, teamwork, and work-life balance",
-   "posted": "7 hari yang lalu",
-   "work_type": "onsite",
-   "salary": "Rp 7.000.000 – Rp 8.500.000 per month",
-   "salary_min": 7000000
-  },
-  {
    "title": ".NET Developer",
    "company": "Berca Hardayaperkasa",
    "location": "Makassar",
@@ -1366,7 +1517,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Mengembangkan dan menjaga aplikasi .NET serta workflow K2 untuk mendukung kelancaran operasional bisnis.",
-   "posted": "7 hari yang lalu",
+   "posted": "8 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1379,7 +1530,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Project innovation",
-   "posted": "7 hari yang lalu",
+   "posted": "8 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1392,20 +1543,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Technical Support role monitoring infrastructure and troubleshooting across applications, databases, and Kubernetes environments.",
-   "posted": "7 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "STAFF IT ( Site Sumbawa )",
-   "company": "PT Uniserv Indonesia",
-   "location": "Sidoarjo",
-   "category": "Lainnya",
-   "url": "https://id.jobstreet.com/id/job/95917326",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95917326",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Kembangkan potensimu bersama kami untuk menjadi IT Staff handal yang mampu mengelola dan mengoptimalkan sistem perusahaan",
-   "posted": "7 hari yang lalu",
+   "posted": "8 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1418,7 +1556,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Lead the transformation of network operations into a unified SNOC with stronger monitoring and incident response.",
-   "posted": "7 hari yang lalu",
+   "posted": "8 hari yang lalu",
    "work_type": "onsite",
    "salary": "Rp 8.000.000 – Rp 9.000.000 per month",
    "salary_min": 8000000
@@ -1433,7 +1571,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Support cost engineering through accurate, structured and reliable estimating data.",
-   "posted": "7 hari yang lalu",
+   "posted": "8 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1446,19 +1584,6 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Mastering Web User Interface Programming (KODE = PROG)\nMenguasai Java Script (wajib)\nMenguasai salah satu framework java script, misalnya que js,...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "IT Support",
-   "company": "Definit",
-   "location": "Yogyakarta",
-   "category": "IT Support",
-   "url": "https://id.jobstreet.com/id/job/95903863",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95903863",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Mengevaluasi dan meningkatkan kinerja sistem IT dan hal lain yang terkait sistem IT\nMemberi masukan pengembangan IT kantor\nMengembangkan dan...",
    "posted": "8 hari yang lalu",
    "work_type": "onsite"
   },
@@ -1512,137 +1637,6 @@
    "sourceName": "Jobstreet",
    "summary": "Lingkup pekerjaan akan berhubungan bahasa NodeJS (ES6 JS) diutamakan pernah bekerja dengan Svelte Kit Memiliki pengalaman CSS Flex/Grid dan...",
    "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Flutter Engineer",
-   "company": null,
-   "location": "Yogyakarta",
-   "category": "Mobile",
-   "url": "https://id.jobstreet.com/id/job/95903229",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95903229",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Berpengalaman dalam pengembangan mobile Apps dengan menggunakan framework Flutter\nRasa kepemilikan yang kuat, hasrat untuk menciptakan pengalaman...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Bootcamp Full Stack Software Development",
-   "company": null,
-   "location": "Yogyakarta",
-   "category": "Fullstack",
-   "url": "https://id.jobstreet.com/id/job/95901587",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95901587",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Program berjalan secara offline/on-site di Yogyakarta selama 3 bulan (Senin-Jumat, 09.00 – 17.00) Kelas ekslusif hanya untuk 25 student terpilih...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "System Developer & Analyst",
-   "company": "FIN HOMEMART",
-   "location": "Yogyakarta",
-   "category": "Fullstack",
-   "url": "https://id.jobstreet.com/id/job/95901391",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95901391",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Bekerjasama dengan stakeholders dan memastikan keefektifitasan sistem yang dibangun untuk meningkatkan efektifitas dan efisiensi perusahaan Syarat...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Service Point Engineer (Batam)",
-   "company": "Nusantara Compnet Integrator",
-   "location": "Batam",
-   "category": "Lainnya",
-   "url": "https://id.jobstreet.com/id/job/95901167",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95901167",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Melaksanakan pemeliharaan terhadap perangkat yang telah terpasang di klien (preventive maintenance) dan troubleshoot (corrective maintenance)",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Business Analyst",
-   "company": null,
-   "location": "Yogyakarta",
-   "category": "Data",
-   "url": "https://id.jobstreet.com/id/job/95900989",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95900989",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Mengembangkan, mengelola, dan memelihara database yang digunakan untuk mendukung keputusan bisnis Mengidentifikasi peluang untuk peningkatan...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "IT Support",
-   "company": null,
-   "location": "Yogyakarta",
-   "category": "IT Support",
-   "url": "https://id.jobstreet.com/id/job/95900905",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95900905",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Kirim lamaran & CV ke EMAIL dengan Subject : Nama_Posisi yang dilamar, atau ke alamat kami.",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Data Center Engineer (Server Maintenance)- JAKARTA, Batam",
-   "company": "Ace Zeta Pte. Ltd.",
-   "location": "Batam",
-   "category": "Lainnya",
-   "url": "https://id.jobstreet.com/id/job/95900770",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95900770",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "IT Field Engineer for Server Hardware Maintenance in Data Centers, vacancy in Batam and Jakarta.",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite",
-   "salary": "Rp 7,000,000 – Rp 9,000,000 per month",
-   "salary_min": 7000000
-  },
-  {
-   "title": "Data Analis",
-   "company": null,
-   "location": "Yogyakarta",
-   "category": "Lainnya",
-   "url": "https://id.jobstreet.com/id/job/95900804",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95900804",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Memiliki pengalaman sebagai data analis diutamakan\nMemiliki kemampuan analisis\nDapat bekerja sama dan berkomunikasi dengan baik\nBersedia bekerja...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Staf Merchandiser - Fullstack Developer",
-   "company": "FIN HOMEMART",
-   "location": "Yogyakarta",
-   "category": "Data",
-   "url": "https://id.jobstreet.com/id/job/95900154",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95900154",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Pendidikan S1 semua jurusan\nBerpengalaman diutamakan\nMemiliki kemampuan menggunakan perangkat lunak komputer dan sistem pembelian.\nMampu...",
-   "posted": "8 hari yang lalu",
-   "work_type": "onsite"
-  },
-  {
-   "title": "Lowongan Kerja QA Automation Playwright… | Dealls",
-   "company": null,
-   "location": "Surabaya",
-   "category": "QA",
-   "url": "https://dealls.com/loker/software-quality-assurance-engineer-surabaya~pt-sentra-vidya-utama-sevima",
-   "sourceUrl": "https://dealls.com/loker/software-quality-assurance-engineer-surabaya~pt-sentra-vidya-utama-sevima",
-   "source_name": "Dealls",
-   "sourceName": "Dealls",
-   "summary": "Lamar lowongan kerja QA Automation Playwright ( Surabaya ) di PT Sentra Vidya Utama (SEVIMA). Posisi Penuh waktu, min. 1-3 tahun pengalaman, on-site di Surabaya",
    "work_type": "onsite"
   }
  ]
