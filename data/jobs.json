@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-11-24T11:59:10.306013Z",
+ "fetchedAt": "2026-11-24T12:01:22.634182Z",
  "jobs": [
   {
    "title": "SAP FICO Functional Specialist",
@@ -751,6 +751,21 @@
    "salary_min": 6000000
   },
   {
+   "title": "Full stack web developer",
+   "company": "PT Indo Property Hub",
+   "location": "Denpasar",
+   "category": "Fullstack",
+   "url": "https://id.jobstreet.com/id/job/96033420",
+   "sourceUrl": "https://id.jobstreet.com/id/job/96033420",
+   "source_name": "Jobstreet",
+   "sourceName": "Jobstreet",
+   "summary": "Build and improve high-impact WordPress and full stack web experiences for IPH and growing businesses.",
+   "posted": "3 hari yang lalu",
+   "work_type": "onsite",
+   "salary": "Rp 8.000.000 – Rp 10.000.000 per month",
+   "salary_min": 8000000
+  },
+  {
    "title": "QA Engineer",
    "company": "Eigerindo Multi Product Industry",
    "location": "Bandung",
@@ -1297,7 +1312,7 @@
    "source_name": "Jobstreet",
    "sourceName": "Jobstreet",
    "summary": "Our systems have detected unusual traffic from your computer network. This page checks to see if it's really you sending the requests, and not a...",
-   "posted": "6 hari yang lalu",
+   "posted": "7 hari yang lalu",
    "work_type": "onsite"
   },
   {
@@ -1355,21 +1370,6 @@
    "work_type": "onsite"
   },
   {
-   "title": "Teknisi Jaringan WIFI (Network Engineer) - Kota Batam",
-   "company": "Duta Generasi Mandiri",
-   "location": "Batam",
-   "category": "DevOps & Network",
-   "url": "https://id.jobstreet.com/id/job/95947931",
-   "sourceUrl": "https://id.jobstreet.com/id/job/95947931",
-   "source_name": "Jobstreet",
-   "sourceName": "Jobstreet",
-   "summary": "Teknisi jaringan WIFI fiber optik untuk area kota Batam",
-   "posted": "7 hari yang lalu",
-   "work_type": "onsite",
-   "salary": "Rp 5.350.000 – Rp 5.600.000 per month",
-   "salary_min": 5350000
-  },
-  {
    "title": ".Net Developer - Jakarta Utara",
    "company": "PT Sigma Global Teknologi",
    "location": "Jakarta",
@@ -1422,7 +1422,7 @@
    "source_name": "Glints",
    "sourceName": "Glints",
    "summary": "",
-   "posted": "4 jam yang lalu",
+   "posted": "5 jam yang lalu",
    "work_type": "onsite",
    "salary": "Rp 5.500.000 – Rp 8.250.000 per month",
    "salary_min": 5500000
