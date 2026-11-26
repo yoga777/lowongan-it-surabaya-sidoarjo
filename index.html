@@ -145,6 +145,9 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .job-foot{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:14px}
 .job-foot .apply{margin:0 0 0 auto}
 .job-foot .save-btn{min-height:40px;padding:8px 14px}
+.job-foot .share-btn{min-height:40px;padding:8px 14px}
+.dfoot .share-btn{min-height:40px;padding:8px 14px}
+.dfoot .share-menu{left:0;right:auto}
 .job:hover{transform:translateY(-2px);border-color:color-mix(in oklch, var(--brand) 45%, var(--line));box-shadow:0 2px 4px oklch(0.24 0.03 255 / .05), 0 18px 36px -18px oklch(0.24 0.03 255 / .35)}
 :root[data-theme="dark"] .job:hover{box-shadow:0 2px 4px oklch(0 0 0 / .35), 0 18px 36px -18px oklch(0 0 0 / .7)}
 @media (prefers-reduced-motion:no-preference){
@@ -175,6 +178,13 @@ select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);bord
 .save-btn svg,.apply svg,.meta svg{display:block;flex:none}
 .save-btn:hover{border-color:var(--brand);color:var(--brand)}
 .save-btn[aria-pressed="true"]{color:var(--brand);border-color:var(--brand);background:var(--brand-soft)}
+.share-wrap{position:relative}
+.share-btn{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;min-height:38px}
+.share-btn:hover{border-color:var(--brand);color:var(--brand)}
+.share-menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;min-width:200px;z-index:25;display:none}
+.share-menu.open{display:block}
+.share-menu a,.share-menu button{display:flex;align-items:center;gap:9px;width:100%;font:inherit;font-size:14px;font-weight:600;color:var(--ink);text-decoration:none;background:transparent;border:0;border-radius:8px;padding:10px;cursor:pointer;text-align:left;min-height:42px}
+.share-menu a:hover,.share-menu button:hover{background:var(--brand-soft)}
 .dmodal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(10,18,38,.55);padding:16px}
 .dmodal.open{display:flex}
 .dpanel{background:var(--surface);width:100%;max-width:640px;max-height:88vh;display:flex;flex-direction:column;border-radius:16px;box-shadow:0 24px 60px -12px rgba(10,18,38,.4);overflow:hidden;animation:dIn .18s ease-out}
@@ -248,8 +258,10 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
  .avatar{width:42px;height:42px;font-size:16px;border-radius:12px}
  .job h3{font-size:16.5px}
  .meta span{padding:3px 9px;font-size:12px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
- .job-foot{display:grid;grid-template-columns:1fr 1.25fr;gap:10px;padding-top:12px}
+ .job-foot{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:10px;padding-top:12px}
  .job-foot .save-btn{justify-content:center;min-height:44px;padding:9px 8px}
+ .job-foot .share-btn{justify-content:center;min-height:44px;padding:9px 8px;width:100%}
+ .job-foot .share-menu{left:0;right:auto}
  .job-foot .apply{margin:0;justify-content:center;min-height:44px;padding:9px 8px;text-align:center}
  .meta{gap:6px}
  .toolbar{gap:8px}
@@ -261,8 +273,8 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
 }
 @media (max-width:380px){
  .site nav a[href="#daftar"]{display:none}
- .job-foot{grid-template-columns:1fr 1fr}
- .save-btn,.apply{font-size:13.5px}
+ .job-foot{grid-template-columns:1fr 1fr 1.15fr}
+ .save-btn,.apply,.share-btn{font-size:12.5px}
  .job h3{font-size:16.5px}
 }
 /* ===== >=1440px: layar lebar ===== */
@@ -285,6 +297,7 @@ footer.site{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut
   <a class="logo" href="./"><img class="logo-mark" src="assets/logo-mark.svg" alt="" width="36" height="36">LokerIT</a>
   <nav>
    <a href="#daftar">Lowongan</a>
+   <button class="theme-btn" id="pageShareBtn" type="button" aria-label="Bagikan halaman ini"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Bagikan</span></button>
    <a href="https://github.com/yoga777/lowongan-it-surabaya-sidoarjo" target="_blank" rel="noopener">GitHub</a>
    <button class="theme-btn" id="themeBtn" type="button" aria-label="Ganti tema terang atau gelap" aria-pressed="false"></button>
   </nav>
@@ -396,6 +409,7 @@ const icoPin='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke
 const icoClock='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 const icoMoney='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg>';
 const icoBmk=f=>'<svg width="14" height="14" viewBox="0 0 24 24" fill="'+(f?'currentColor':'none')+'" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
+const icoShare='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>';
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function initials(name){const w=String(name||'?').replace(/^(PT|CV|UD)\.?\s+/i,'').trim().split(/\s+/);return ((w[0]||'?')[0]+((w[1]||'')[0]||'')).toUpperCase()}
 function avColor(name){let h=0;for(const c of String(name))h=(h*31+c.charCodeAt(0))>>>0;return AV_COLORS[h%AV_COLORS.length]}
@@ -480,6 +494,7 @@ function render(){
   +(j.summary?'<p class="summary">'+esc(j.summary)+'</p>':'')
   +'<div class="tags"><span class="tag tag-cat" style="--tc:'+cc[0]+';--tb:'+cc[1]+'">'+esc(j.category)+'</span>'+(j.work_type?'<span class="tag tag-wt">'+WT_LABEL[j.work_type]+'</span>':'')+'</div></div></div>'
   +'<div class="job-foot"><button type="button" class="save-btn" data-key="'+esc(key)+'" aria-pressed="'+saved+'" aria-label="'+(saved?'Hapus dari tersimpan: ':'Simpan lowongan: ')+esc(j.title)+'">'+icoBmk(saved)+(saved?'Tersimpan':'Simpan')+'</button>'
+  +'<div class="share-wrap"><button type="button" class="share-btn" data-text="'+esc(j.title)+' di '+esc(company)+' ('+esc(j.location)+')" data-url="'+esc(j.url||'')+'" aria-haspopup="true" aria-expanded="false" aria-label="Bagikan lowongan: '+esc(j.title)+'">'+icoShare+'Bagikan</button><div class="share-menu" role="menu"></div></div>'
   +applyHtml+'</div></article>'
  }).join('');
  panel.querySelectorAll('.save-btn:not(.detail-btn)').forEach(b=>b.onclick=()=>{
@@ -489,11 +504,40 @@ function render(){
   buildSaved();render();
  });
  panel.querySelectorAll('.job').forEach(card=>card.onclick=e=>{
-  if(e.target.closest('a,button'))return;
+  if(e.target.closest('a,button,.share-wrap'))return;
   openDetail(card.dataset.key);
  });
+ panel.querySelectorAll('.share-btn').forEach(b=>b.onclick=e=>{e.stopPropagation();handleShare(b)});
  renderPager(rows.length,totalPages);
 }
+/* ===== Bagikan (share link) ===== */
+function copyText(t,btn){
+ const done=()=>{if(btn){const old=btn.innerHTML;btn.innerHTML='Tersalin!';setTimeout(()=>{btn.innerHTML=old},1600)}};
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallbackCopy(t,done))}
+ else fallbackCopy(t,done);
+}
+function fallbackCopy(t,done){const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){}ta.remove()}
+function closeShareMenus(except){document.querySelectorAll('.share-menu.open').forEach(m=>{if(m!==except)m.classList.remove('open')})}
+function fillShareMenu(menu,text,url){
+ const full=text+(url?'\n'+url:'');
+ menu.innerHTML='<a role="menuitem" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(full)+'">WhatsApp</a>'
+ +'<a role="menuitem" target="_blank" rel="noopener" href="https://t.me/share/url?url='+encodeURIComponent(url||location.href)+'&text='+encodeURIComponent(text)+'">Telegram</a>'
+ +'<a role="menuitem" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?text='+encodeURIComponent(text)+'&url='+encodeURIComponent(url||location.href)+'">X (Twitter)</a>'
+ +'<button type="button" role="menuitem" class="share-copy">Salin Tautan</button>';
+ menu.querySelector('.share-copy').onclick=e=>{e.stopPropagation();copyText(url||location.href,e.currentTarget);setTimeout(()=>menu.classList.remove('open'),900)};
+ menu.querySelectorAll('a').forEach(a=>a.onclick=()=>menu.classList.remove('open'));
+}
+function handleShare(btn){
+ const text=btn.dataset.text||document.title,url=btn.dataset.url||location.href;
+ if(navigator.share){navigator.share({title:text,text:text,url:url}).catch(()=>{});return}
+ const menu=btn.parentElement.querySelector('.share-menu');if(!menu)return;
+ const willOpen=!menu.classList.contains('open');
+ closeShareMenus(menu);
+ if(willOpen){fillShareMenu(menu,text,url);menu.classList.add('open');btn.setAttribute('aria-expanded','true')}
+ else btn.setAttribute('aria-expanded','false');
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.share-wrap'))closeShareMenus(null)});
+
 function shortSalary(s){
  const nums=[...s.matchAll(/Rp\s*([\d.,]+)/g)].map(m=>parseInt(m[1].replace(/[.,]/g,''),10)).filter(n=>n>0);
  if(!nums.length)return s;
@@ -517,11 +561,17 @@ function openDetail(key){
  else if(j.summary){d.textContent=j.summary;d.classList.remove('ddesc-empty')}
  else{d.textContent='Deskripsi lengkap belum tersedia untuk lowongan ini. Tekan Lamar untuk melihat detailnya di situs sumber.';d.classList.add('ddesc-empty')}
  $('dApply').innerHTML=j.url?'<a class="apply" href="'+esc(j.url)+'" target="_blank" rel="noopener">Lamar Sekarang <svg class="arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>':'';
+ const dsb=$('dShareBtn');if(dsb){dsb.dataset.text=j.title+' di '+(j.company||'')+' ('+j.location+')';dsb.dataset.url=j.url||''}
  const m=$('detailModal');m.hidden=false;m.classList.add('open');document.body.style.overflow='hidden';$('dClose').focus();
 }
 function closeDetail(){const m=$('detailModal');m.classList.remove('open');m.hidden=true;document.body.style.overflow=''}
 document.addEventListener('DOMContentLoaded',()=>{
  $('dClose').onclick=closeDetail;$('dTutup').onclick=closeDetail;
+ const dsb=$('dShareBtn');if(dsb)dsb.onclick=e=>{e.stopPropagation();handleShare(dsb)};
+ const psb=$('pageShareBtn');if(psb)psb.onclick=()=>{
+  if(navigator.share){navigator.share({title:document.title,text:document.title,url:location.href}).catch(()=>{})}
+  else copyText(location.href,psb);
+ };
  $('detailModal').addEventListener('click',e=>{if(e.target.id==='detailModal')closeDetail()});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('detailModal').classList.contains('open'))closeDetail()});
 });
@@ -711,6 +761,7 @@ toTop.onclick=()=>scrollTo({top:0,behavior:'smooth'});
   </div>
   <div class="dfoot">
    <button type="button" class="save-btn" id="dTutup">Tutup</button>
+   <div class="share-wrap"><button type="button" class="share-btn" id="dShareBtn" aria-haspopup="true" aria-expanded="false"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Bagikan</button><div class="share-menu" id="dShareMenu" role="menu"></div></div>
    <span id="dApply"></span>
   </div>
  </div>
