@@ -414,6 +414,11 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function initials(name){const w=String(name||'?').replace(/^(PT|CV|UD)\.?\s+/i,'').trim().split(/\s+/);return ((w[0]||'?')[0]+((w[1]||'')[0]||'')).toUpperCase()}
 function avColor(name){let h=0;for(const c of String(name))h=(h*31+c.charCodeAt(0))>>>0;return AV_COLORS[h%AV_COLORS.length]}
 function jobKey(j){return j.url||(j.title+'|'+(j.company||''))}
+/* Deep link ke halaman sendiri: ?job=<hash pendek dari kunci lowongan> */
+let HASHMAP={};
+function jobHash(j){const s=jobKey(j);let h=0x811c9dc5;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0}return h.toString(36)}
+function buildHashMap(){HASHMAP={};JOBS.forEach(j=>{let hh=jobHash(j);if(HASHMAP[hh]&&HASHMAP[hh]!==jobKey(j))hh=hh+'x';HASHMAP[hh]=jobKey(j);j._h=hh})}
+function jobLink(j){return location.href.split(/[?#]/)[0]+'?job='+(j._h||jobHash(j))}
 function normalizeJob(j){
  const url=String(j.url||j.sourceUrl||j.link||'').trim();
  const source=String(j.source_name||j.sourceName||'').trim();
@@ -494,7 +499,7 @@ function render(){
   +(j.summary?'<p class="summary">'+esc(j.summary)+'</p>':'')
   +'<div class="tags"><span class="tag tag-cat" style="--tc:'+cc[0]+';--tb:'+cc[1]+'">'+esc(j.category)+'</span>'+(j.work_type?'<span class="tag tag-wt">'+WT_LABEL[j.work_type]+'</span>':'')+'</div></div></div>'
   +'<div class="job-foot"><button type="button" class="save-btn" data-key="'+esc(key)+'" aria-pressed="'+saved+'" aria-label="'+(saved?'Hapus dari tersimpan: ':'Simpan lowongan: ')+esc(j.title)+'">'+icoBmk(saved)+(saved?'Tersimpan':'Simpan')+'</button>'
-  +'<div class="share-wrap"><button type="button" class="share-btn" data-text="'+esc(j.title)+' di '+esc(company)+' ('+esc(j.location)+')" data-url="'+esc(j.url||'')+'" aria-haspopup="true" aria-expanded="false" aria-label="Bagikan lowongan: '+esc(j.title)+'">'+icoShare+'Bagikan</button><div class="share-menu" role="menu"></div></div>'
+  +'<div class="share-wrap"><button type="button" class="share-btn" data-text="'+esc(j.title)+' di '+esc(company)+' ('+esc(j.location)+')" data-url="'+esc(jobLink(j))+'" aria-haspopup="true" aria-expanded="false" aria-label="Bagikan lowongan: '+esc(j.title)+'">'+icoShare+'Bagikan</button><div class="share-menu" role="menu"></div></div>'
   +applyHtml+'</div></article>'
  }).join('');
  panel.querySelectorAll('.save-btn:not(.detail-btn)').forEach(b=>b.onclick=()=>{
@@ -561,7 +566,7 @@ function openDetail(key){
  else if(j.summary){d.textContent=j.summary;d.classList.remove('ddesc-empty')}
  else{d.textContent='Deskripsi lengkap belum tersedia untuk lowongan ini. Tekan Lamar untuk melihat detailnya di situs sumber.';d.classList.add('ddesc-empty')}
  $('dApply').innerHTML=j.url?'<a class="apply" href="'+esc(j.url)+'" target="_blank" rel="noopener">Lamar Sekarang <svg class="arr" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a>':'';
- const dsb=$('dShareBtn');if(dsb){dsb.dataset.text=j.title+' di '+(j.company||'')+' ('+j.location+')';dsb.dataset.url=j.url||''}
+ const dsb=$('dShareBtn');if(dsb){dsb.dataset.text=j.title+' di '+(j.company||'')+' ('+j.location+')';dsb.dataset.url=jobLink(j)}
  const m=$('detailModal');m.hidden=false;m.classList.add('open');document.body.style.overflow='hidden';$('dClose').focus();
 }
 function closeDetail(){const m=$('detailModal');m.classList.remove('open');m.hidden=true;document.body.style.overflow=''}
@@ -700,6 +705,7 @@ $('locBtn').onclick=()=>{
 
 fetch('data/jobs.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(d=>{
  JOBS=(d.jobs||[]).map(normalizeJob);
+ buildHashMap();
  let savedLoc=null;try{savedLoc=localStorage.getItem('lokerit-loc')}catch(e){}
  if(savedLoc){activeLoc=savedLoc;activeJobLoc=savedLoc==='Semua'?'Semua':mapToJobLoc(savedLoc)}
  buildLoc();buildSaved();
@@ -709,6 +715,8 @@ fetch('data/jobs.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HT
  $('quickChips').innerHTML='<span>Pencarian populer:</span>'+pops.map(p=>'<button type="button" data-q="'+p+'">'+p+'</button>').join('');
  $('quickChips').querySelectorAll('button').forEach(b=>b.onclick=()=>{q.value=b.dataset.q;render();document.getElementById('daftar').scrollIntoView({behavior:'smooth'})});
  render();
+ const deepJob=new URLSearchParams(location.search).get('job');
+ if(deepJob&&HASHMAP[deepJob])openDetail(HASHMAP[deepJob]);
  loadRegencies();
  if(!savedLoc)detectLocByIP();
 }).catch(()=>{panel.innerHTML='<div class="empty"><strong>Data belum bisa dimuat</strong>Coba muat ulang halaman ini beberapa saat lagi.</div>'});
