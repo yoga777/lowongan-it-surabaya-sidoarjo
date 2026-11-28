@@ -23,6 +23,11 @@ didedup berdasarkan URL, dan dikategorikan sederhana.
 
 Kalau hasil baru < 5 (mis. jaringan diblokir), file lama TIDAK ditimpa —
 jadi situs tidak pernah kosong gara-gara satu run gagal.
+Pengaman sumber utama: kalau hasil baru TIDAK berisi Jobstreet sama
+sekali padahal file lama berisi Jobstreet, file lama juga TIDAK ditimpa
+dan run GAGAL dengan kode keluar 1 — kegagalan satu sumber tidak boleh
+menimpa dataset bagus secara diam-diam (kejadian 28 Nov 2026: dataset
+140 tertimpa 107 tanpa Jobstreet dan run-nya tetap "sukses").
 
 Jalankan:  python3 scripts/update_jobs.py
 Dipakai oleh: .github/workflows/update-jobs.yml (tiap jam)
@@ -677,6 +682,24 @@ def main() -> int:
     if len(final) < 5:
         print(f"Hasil baru cuma {len(final)} (<5) — file lama dipertahankan.")
         return 0
+    # Pengaman sumber utama: Jobstreet 0 di hasil baru padahal file lama
+    # berisi Jobstreet = sumber utama gagal total (diblokir/berubah).
+    # Jangan timpa dataset bagus dengan hasil menyusut; gagal secara
+    # terlihat (kode keluar 1) supaya kelihatan di tab Actions.
+    def _n_jobstreet(pool):
+        return sum(1 for j in pool
+                   if (j.get("source_name") or j.get("sourceName")) == "Jobstreet")
+    if _n_jobstreet(final) == 0 and OUT.exists():
+        try:
+            old_jobs = json.loads(OUT.read_text(encoding="utf-8")).get("jobs", [])
+        except Exception:
+            old_jobs = []
+        old_js = _n_jobstreet(old_jobs)
+        if old_js > 0:
+            print(f"ERROR: Jobstreet 0 di hasil baru, file lama berisi "
+                  f"{old_js} Jobstreet — file lama TIDAK ditimpa, run gagal.",
+                  file=sys.stderr)
+            return 1
     enrich_descriptions(final)
     data = {"fetchedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"), "jobs": final}
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
